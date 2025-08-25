@@ -1,0 +1,59 @@
+<h2>💳 פרטי לקוח ותשלום</h2>
+
+<div class="checkout-container">
+  <form (ngSubmit)="checkout()" #customerForm="ngForm" class="customer-form">
+
+    <div class="form-group">
+      <label>שם פרטי</label>
+      <input placeholder="שם פרטי" [(ngModel)]="customer.firstName" name="firstName" required />
+      <div class="error" *ngIf="customerForm.controls['firstName']?.invalid && (customerForm.controls['firstName']?.dirty || customerForm.controls['firstName']?.touched)">
+        שם פרטי חובה
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>שם משפחה</label>
+      <input placeholder="שם משפחה" [(ngModel)]="customer.lastName" name="lastName" required />
+      <div class="error" *ngIf="customerForm.controls['lastName']?.invalid && (customerForm.controls['lastName']?.dirty || customerForm.controls['lastName']?.touched)">
+        שם משפחה חובה
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>כתובת</label>
+      <input placeholder="כתובת מלאה למשלוח" [(ngModel)]="customer.address" name="address" required />
+      <div class="error" *ngIf="customerForm.controls['address']?.invalid && (customerForm.controls['address']?.dirty || customerForm.controls['address']?.touched)">
+        כתובת חובה
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>טלפון</label>
+    <input placeholder="מספר טלפון" [(ngModel)]="customer.phone" name="phone" required pattern="^0\d{8,9}$" />
+
+      <div class="error" *ngIf="customerForm.controls['phone']?.invalid && (customerForm.controls['phone']?.dirty || customerForm.controls['phone']?.touched)">
+        מספר טלפון לא תקין. יש להזין מספר שמתחיל ב-0 ואחריו 8 או 9 ספרות
+      </div>
+    </div>
+
+    <div class="order-summary" *ngIf="cart.length > 0">
+      <h3>🛒 סיכום הזמנה</h3>
+      <div *ngFor="let item of cart" class="order-item">
+        <span>{{ item.title }} (x{{item.quantity}})</span>
+        <span>{{ (item.price * item.quantity) | number:'1.0-2' }} ₪</span>
+      </div>
+      <div class="order-total">
+        סה"כ לתשלום: <strong>{{ getTotal() | number:'1.0-2' }} ₪</strong>
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="!customerForm.valid || cart.length === 0" class="pay-btn">
+      ✔️ אישור ותשלום
+    </button>
+
+    <p class="debug" *ngIf="!customerForm.valid && (customerForm.dirty || customerForm.touched)">
+      ⚠️ יש למלא את כל השדות כראוי כדי להמשיך לתשלום
+    </p>
+
+  </form>
+</div>

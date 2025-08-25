@@ -1,0 +1,57 @@
+<h2>ניהול מוצרים</h2>
+
+<!-- כפתור לפתיחת טופס הוספה -->
+<button (click)="showForm = !showForm" class="toggle-btn">
+  {{ showForm ? 'סגור טופס' : '➕ הוסף מוצר' }}
+</button>
+
+<!-- טופס הוספת מוצר -->
+<div *ngIf="showForm" class="form-container">
+  <form (ngSubmit)="addProduct()" class="product-form">
+    <input placeholder="שם מוצר" [(ngModel)]="newProduct.title" name="title" required />
+    <input type="number" placeholder="מחיר" [(ngModel)]="newProduct.price" name="price" required />
+    <input type="file" (change)="onFileSelected($event)" />
+    <button type="submit">שמור</button>
+  </form>
+</div>
+
+<!-- רשימת מוצרים -->
+<div class="products-list">
+  <div *ngFor="let p of products" class="product-card">
+    <img [src]="'http://localhost:3000/uploads/' + p.image" />
+    <h3>{{ p.title }}</h3>
+    <p>₪{{ p.price }}</p>
+    
+    <div class="actions">
+      <button (click)="deleteProduct(p.id)" class="delete-btn">🗑️ מחק</button>
+      <button (click)="editProduct(p)" class="edit-btn">✏️ ערוך</button>
+    </div>
+  </div>
+</div><!-- מודאל עריכה -->
+<div class="modal" *ngIf="editingProduct">
+  <div class="modal-overlay" (click)="closeModal()"></div>
+  <div class="modal-content">
+    <h3>עריכת מוצר</h3>
+    <form (ngSubmit)="saveEdit()" class="edit-form">
+      
+      <!-- תצוגת תמונה קיימת -->
+      <div class="image-preview">
+        <img [src]="'http://localhost:3000/uploads/' + editingProduct.image" alt="תמונה קיימת" />
+      </div>
+
+      <!-- שינוי תמונה -->
+      <label for="editImage" class="custom-file-upload">
+        בחרי תמונה חדשה
+      </label>
+      <input type="file" id="editImage" (change)="onEditFileSelected($event)" />
+
+      <input type="text" [(ngModel)]="editingProduct.title" name="title" placeholder="שם מוצר" required />
+      <input type="number" [(ngModel)]="editingProduct.price" name="price" placeholder="מחיר" required />
+
+      <div class="modal-actions">
+        <button type="submit" class="save-btn">שמור</button>
+        <button type="button" class="cancel-btn" (click)="closeModal()">ביטול</button>
+      </div>
+    </form>
+  </div>
+</div>

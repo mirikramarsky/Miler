@@ -1,0 +1,29 @@
+<h2>🛒 סל הקניות שלך</h2>
+
+<div *ngIf="cart.length === 0" class="empty-cart">
+  הסל ריק 😢 <br />
+  <button class="continue empty-continue" (click)="continueShopping()">המשך קניות</button>
+</div>
+
+
+<div *ngFor="let item of cart" class="cart-row">
+  <img [src]="'http://localhost:3000/uploads/' + item.image" alt="{{item.title}}" class="cart-img"/>
+
+  <div class="info">
+    <div class="title">{{item.title}}</div>
+    <div class="price">מחיר ליחידה: {{ item.price | number:'1.0-2' }} ₪</div>
+    <div class="sum">סה"כ: {{ (item.quantity * item.price) | number:'1.0-2' }} ₪</div>
+  </div>
+
+  <div class="actions">
+    <input type="number" [(ngModel)]="item.quantity" (change)="updateCart()" min="1" />
+    <button class="remove" (click)="removeFromCart(item.id)">✖</button>
+  </div>
+</div>
+
+<h3 class="total">סה"כ לתשלום: {{ getTotal() | number:'1.0-2' }} ₪</h3>
+
+<div class="cart-actions" *ngIf="cart.length > 0">
+  <button class="continue" (click)="continueShopping()">➡ המשך קניות</button>
+  <button class="checkout" (click)="goToCheckout()">לתשלום ⬅</button>
+</div>
