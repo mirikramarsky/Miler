@@ -11,7 +11,7 @@ import { Product } from '../../models/Product';
 export class ProductsComponent implements OnInit {
   products: Product[] = [];
   cart: Product[] = [];
-
+ BASEURL = 'https://miler.onrender.com/uploads/';
   constructor(private ps: ProductService, private router: Router) {}
 
   ngOnInit() {

@@ -9,6 +9,7 @@ import { ProductService } from "src/app/services/product-service.service";
 })
 
 export class AdminComponent implements OnInit {
+  BASEURL = 'https://miler.onrender.com/uploads/';
   products: Product[] = [];
   newProduct = { title: '', price: 0, image: '' };
   selectedFile: File | null = null;

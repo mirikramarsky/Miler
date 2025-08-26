@@ -9,7 +9,7 @@ import { ProductService } from '../../services/product-service.service';
 })
 export class CartComponent implements OnInit {
   cart: any[] = [];
-
+ BASEURL = 'https://miler.onrender.com/uploads/';
   constructor(private ps: ProductService, private router: Router) { }
 
   ngOnInit() {

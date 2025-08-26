@@ -7,7 +7,7 @@
 
 
 <div *ngFor="let item of cart" class="cart-row">
-  <img [src]="'http://localhost:3000/uploads/' + item.image" alt="{{item.title}}" class="cart-img"/>
+  <img [src]="BASEURL + item.image" alt="{{item.title}}" class="cart-img"/>
 
   <div class="info">
     <div class="title">{{item.title}}</div>

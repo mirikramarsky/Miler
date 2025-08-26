@@ -18,7 +18,7 @@
 <!-- רשימת מוצרים -->
 <div class="products-list">
   <div *ngFor="let p of products" class="product-card">
-    <img [src]="'http://localhost:3000/uploads/' + p.image" />
+    <img [src]="BASEURL + p.image" />
     <h3>{{ p.title }}</h3>
     <p>₪{{ p.price }}</p>
     
@@ -36,7 +36,7 @@
       
       <!-- תצוגת תמונה קיימת -->
       <div class="image-preview">
-        <img [src]="'http://localhost:3000/uploads/' + editingProduct.image" alt="תמונה קיימת" />
+        <img [src]="BASEURL + editingProduct.image" alt="תמונה קיימת" />
       </div>
 
       <!-- שינוי תמונה -->
