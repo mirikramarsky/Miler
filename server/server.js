@@ -13,6 +13,8 @@ app.use('/uploads', express.static('uploads'));
 app.use('/products', productsRouter);
 app.use('/admin', adminRouter);
 require('dotenv').config();
+const paymentRouter = require('./routes/payment.js');
+app.use('/payment', paymentRouter);
 
 // ב-server.js שלך
 app.post('/checkout', (req, res) => {

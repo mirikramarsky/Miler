@@ -7,9 +7,11 @@ import { AuthService } from 'src/app/services/auth-service.service';
   selector: 'app-admin-login',
   templateUrl: './admin-login.component.html',
 })
+// src/app/admin-login/admin-login.component.ts
 export class AdminLoginComponent {
   username = '';
   password = '';
+  showPassword = false; // משתנה לשליטה על הצגת הסיסמה
 
   constructor(private auth: AuthService, private router: Router) {}
 
@@ -23,3 +25,5 @@ export class AdminLoginComponent {
     });
   }
 }
+
+
