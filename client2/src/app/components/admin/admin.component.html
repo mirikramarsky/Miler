@@ -8,12 +8,25 @@
 <!-- טופס הוספת מוצר -->
 <div *ngIf="showForm" class="form-container">
   <form (ngSubmit)="addProduct()" class="product-form">
-    <input placeholder="שם מוצר" [(ngModel)]="newProduct.title" name="title" required />
+
+    <!-- תצוגת פריויו לתמונה -->
+    <div class="image-preview" *ngIf="selectedImage">
+      <img [src]="selectedImage" alt="תמונה שנבחרה" />
+    </div>
+
+    <!-- כפתור להעלאת קובץ -->
+    <label for="productImage" class="custom-file-upload">בחרי תמונה</label>
+    <input type="file" id="productImage" (change)="onFileSelected($event)" />
+
+    <!-- שדות הטופס -->
+    <input type="text" placeholder="שם מוצר" [(ngModel)]="newProduct.title" name="title" required />
     <input type="number" placeholder="מחיר" [(ngModel)]="newProduct.price" name="price" required />
-    <input type="file" (change)="onFileSelected($event)" />
-    <button type="submit">שמור</button>
+
+    <!-- כפתור שמירה -->
+    <button type="submit">שמור מוצר</button>
   </form>
 </div>
+
 
 <!-- רשימת מוצרים -->
 <div class="products-list">
@@ -21,7 +34,7 @@
     <img [src]="BASEURL + p.image" />
     <h3>{{ p.title }}</h3>
     <p>₪{{ p.price }}</p>
-    
+
     <div class="actions">
       <button (click)="deleteProduct(p.id)" class="delete-btn">🗑️ מחק</button>
       <button (click)="editProduct(p)" class="edit-btn">✏️ ערוך</button>
@@ -33,7 +46,7 @@
   <div class="modal-content">
     <h3>עריכת מוצר</h3>
     <form (ngSubmit)="saveEdit()" class="edit-form">
-      
+
       <!-- תצוגת תמונה קיימת -->
       <div class="image-preview">
         <img [src]="BASEURL + editingProduct.image" alt="תמונה קיימת" />

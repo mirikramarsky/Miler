@@ -16,7 +16,17 @@ export class AdminComponent implements OnInit {
   showForm = false;   // הצגת טופס
   editingProduct: Product | null = null; // לעדכון מוצר
 editingFile: File | null = null;
+selectedImage: string | ArrayBuffer | null = null;
 
+onFileSelected(event: any) {
+  const file = event.target.files[0];
+  this.selectedFile = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = e => this.selectedImage = reader.result;
+    reader.readAsDataURL(file);
+  }
+}
   constructor(private ps: ProductService) { }
 
   ngOnInit() {
@@ -25,10 +35,6 @@ editingFile: File | null = null;
 
   loadProducts() {
     this.ps.getProducts().subscribe(data => this.products = data);
-  }
-
-  onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];
   }
 
   addProduct() {

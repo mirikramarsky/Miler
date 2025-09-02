@@ -159,6 +159,9 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  border-color: #c6a45d;
+  border-width: 100px;
+  border-style: solid;
   background-color: #000;
   color: white;
   border: none;

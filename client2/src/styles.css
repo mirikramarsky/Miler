@@ -1,4 +1,70 @@
 /* You can add global styles to this file, and also import other style files */
-body{
+body {
     direction: rtl;
+    font-family: 'Noto Serif Hebrew', serif;
+    background-color: #fff;
+    color: #000;
+
 }
+/* 
+.products-grid,
+.products-list {
+  display: flex;
+  flex-wrap: wrap;         
+  gap: 24px;               
+  justify-content: center; 
+  padding: 16px 0;
+  box-sizing: border-box;
+}
+
+.product-card {
+  flex: 1 1 250px;        
+  max-width: 300px;      
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.product-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.product-actions, .actions {
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.add-to-cart-btn,
+.delete-btn,
+.edit-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+
+.add-to-cart-btn:hover,
+.delete-btn:hover,
+.edit-btn:hover {
+  background-color: #c6a45d;
+  color: #000;
+}
+
+
+@media (max-width: 600px) {
+  .products-grid,
+  .products-list {
+    flex-direction: column;
+    align-items: center;
+  }
+} */

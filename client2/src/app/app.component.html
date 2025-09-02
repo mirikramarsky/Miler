@@ -1,4 +1,4 @@
-<nav class="main-nav">
+<!-- <nav class="main-nav">
   <a routerLink="/" routerLinkActive="active">מוצרים</a>
   <a routerLink="/cart" routerLinkActive="active">סל קניות 🛒</a>
   <a *ngIf="auth.isAdmin()" routerLink="/admin" routerLinkActive="active">ניהול</a>
@@ -8,6 +8,43 @@
 <footer>
   <div>
     <h2> צור קשר</h2>
+    <a href="tel:0527609686">052-7609686</a>
+  </div>
+</footer> -->
+<header class="site-header">
+  <div class="header-logo">
+    <img src="logo.png" alt="Miller Logo" class="logo">
+  </div>
+
+  <div class="header-intro">
+    <p>
+      אנו במילר מאמינים שסטנדר לא צריך להיות סתם סטנדר אלא מעץ איכותי ברמה הגבוהה ביותר, וביופי המקסימלי, לבית המדרש
+      לבית הכנסת או לבית
+      את הסטנדרים ניתן לרכוש כמתנה מכובדת לאדמורי”ם, ראשי ישיבות, רמי”ם, מנהלי תלמוד תורה, מלמדים, חתנים ובעצם לכל אחד שרוצה
+      להוקיר ולכבד את יקירו במתנה מכובדת ומוערכת.
+      ניתן לרכוש את הסטנדר ללימוד, למסירת שיעורים או הרצאות, ואף לחזן בית הכנסת.
+      ניתן לשנות גובה או להוסיף תיבה בתוספת תשלום ביצירת קשר
+      לבתי כנסיות או מדרשות לכמויות יש ליצור קשר <br>
+      <strong><h3>
+      הסטנדרים שלנו עשויים מעץ סנדוויץ לבנה איכותי בציפוי פורמייקה.</h3></strong>
+    </p>
+  </div>
+
+  <nav class="header-nav">
+    <a routerLink="/" routerLinkActive="active">מוצרים</a>
+    <a routerLink="/cart" routerLinkActive="active">סל קניות 🛒</a>
+    <a *ngIf="auth.isAdmin()" routerLink="/admin" routerLinkActive="active">ניהול</a>
+  </nav>
+</header>
+
+
+<main class="page-content">
+  <router-outlet></router-outlet>
+</main>
+
+<footer>
+  <div>
+    <h2>צור קשר</h2>
     <a href="tel:0527609686">052-7609686</a>
   </div>
 </footer>
