@@ -60,24 +60,20 @@ footer {
   font-weight: 400;
   font-size: 0.9rem;
   letter-spacing: 0.5px;
-}
-
-/* הידר */
+}/* הידר כללי */
 .site-header {
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
-  /* ימין - אמצע - שמאל */
-  align-items: center;
-  background-color: #000;
-  padding: 20px;
   border-radius: 0 0 12px 12px;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
-  gap: 20px;
+  overflow: hidden; /* חותך כדי שהשחור והלבן יהיו בלוקים נפרדים */
 }
 
-router-outlet {
-  display: block;
-  width: 100%;
+/* השורה העליונה - לוגו + קישורים */
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background-color: #000; /* שחור */
 }
 
 /* לוגו */
@@ -85,48 +81,43 @@ router-outlet {
   height: 60px;
   object-fit: contain;
   display: block;
-  margin: 0 auto;
-  filter: brightness(0) invert(1);
-  /* הופך שחור ללבן */
+  filter: brightness(0) invert(1); /* שיהיה לבן על שחור */
 }
 
-/* טקסט במרכז */
-.header-intro p {
-  color: #c6a45d;
-  margin: 0;
-  font-size: 0.95rem;
-  line-height: 1.5;
-  text-align: center;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* קישורים בצד שמאל */
+/* קישורים */
 .header-nav {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  text-align: left;
-  padding-left: 2cm;
-  /* מרווח מהשמאל */
-  max-width: 150px;
+  gap: 20px;
 }
 
 .header-nav a {
-  color: #fff;
+  color: #fff; /* לבן */
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s, border-bottom 0.3s;
 }
 
-.header-nav a:hover {
-  color: #c6a45d;
+.header-nav a:hover,
+.header-nav a.active {
+  color: #c6a45d; /* זהב בהובר ואקטיבי */
   border-bottom: 1px solid #c6a45d;
 }
 
-.header-nav a.active {
-  color: #c6a45d;
+/* פסקת ההקדמה */
+.header-intro {
+  background-color: #fff; /* לבן */
+  padding: 24px 20px;
+  text-align: center;
 }
+
+.header-intro p {
+  margin: 0 auto;
+  max-width: 1500px;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #c6a45d; /* זהב */
+}
+
 
 /* מובייל */
 @media (max-width: 600px) {
@@ -135,17 +126,30 @@ router-outlet {
     text-align: center;
   }
 
-  .header-intro {
-    order: 2;
-    margin-top: 12px;
+ .header-top {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .header-logo .logo {
+    height: 50px; /* טיפה קטן במסכים קטנים */
+    margin: 0 auto;
   }
 
   .header-nav {
-    order: 3;
     flex-direction: row;
     justify-content: center;
-    gap: 20px;
-    padding-left: 20px;
+    gap: 16px;
+  }
+
+  .header-intro {
+    margin-top: 12px;
+    padding: 0 12px; /* קצת ריווח צדדים לטקסט */
+  }
+
+  .header-intro p {
+    font-size: 0.9rem;
+    line-height: 1.5;
   }
 
   .main-nav {
