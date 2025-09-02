@@ -2,9 +2,10 @@
 
 <div class="products-grid">
   <div *ngFor="let product of products" class="product-card">
-    <h3>{{ product.title }}</h3>
+    <h1>{{ product.title }}</h1>
     <img [src]="BASEURL + product.image" alt="{{product.title}}" />
-
+    <h3>{{ product.title }}</h3>
+    <p>₪{{ product.price }}</p>
     <div class="product-actions">
       <button (click)="addToCart(product)" class="add-to-cart-btn">
         🛒 הוסף לסל

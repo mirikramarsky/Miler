@@ -5,14 +5,16 @@ import { CartComponent } from './components/cart/cart.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { AdminGuard } from './guards/admin-guard.guard';
 import { AdminLoginComponent } from './components/admin-login/admin-login.component';
-import { CheckoutComponent } from './components/checkout/checkout.component'; // 👈 לייבא את הקומפוננטה החדשה
+import { CheckoutComponent } from './components/checkout/checkout.component'; 
 
 const routes: Routes = [
-  { path: '', component: ProductsComponent },
+   { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: 'home', component: ProductsComponent },
   { path: 'cart', component: CartComponent },
-  { path: 'checkout', component: CheckoutComponent }, // 👈 נתיב חדש
+  { path: 'checkout', component: CheckoutComponent }, 
   { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] },
   { path: 'admin/login', component: AdminLoginComponent },
+  { path: '**', redirectTo: '/home' }
 ];
 
 @NgModule({
