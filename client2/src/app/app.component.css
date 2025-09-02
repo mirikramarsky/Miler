@@ -1,4 +1,4 @@
-/* --- סגנון כללי לניווט --- */
+/* --- סגנון כללי לניווט ---
 .main-nav {
   display: flex;
   justify-content: center;
@@ -28,14 +28,58 @@
   background-color: rgba(255,255,255,0.35);
 }
 
-/* --- קו מפריד --- */
 hr {
   margin: 0;
   border: 0;
   border-top: 2px solid #e0e0e0;
 }
 
-/* --- תגובה למובייל --- */
+
+@media (max-width: 600px) {
+  .main-nav {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px 0;
+  }
+} */
+/* --- ניווט ראשי --- */
+.main-nav {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  background-color: #000;
+  padding: 14px 0;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+  font-weight: 500;
+  font-size: 1.05rem;
+}
+
+.main-nav a {
+  color: #fff;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: color 0.3s, border-bottom 0.3s;
+}
+
+.main-nav a:hover {
+  color: #c6a45d;
+  border-bottom: 2px solid #c6a45d;
+}
+
+.main-nav a.active {
+  color: #c6a45d;
+}
+
+/* --- קו מפריד --- */
+hr {
+  margin: 0;
+  border: 0;
+  border-top: 1px solid #ddd;
+}
+
+/* --- מובייל --- */
 @media (max-width: 600px) {
   .main-nav {
     flex-direction: column;
