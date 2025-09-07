@@ -11,8 +11,7 @@ const routes: Routes = [
    { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: ProductsComponent },
   { path: 'cart', component: CartComponent },
-  { path: 'checkout', component: CheckoutComponent }, 
-  { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] },
+    { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] },
   { path: 'admin/login', component: AdminLoginComponent },
   { path: '**', redirectTo: '/home' }
 ];
