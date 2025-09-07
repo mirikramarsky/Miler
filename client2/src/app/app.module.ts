@@ -8,7 +8,6 @@ import { AdminComponent } from './components/admin/admin.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AdminLoginComponent } from './components/admin-login/admin-login.component';
-import { CheckoutComponent } from './components/checkout/checkout.component';
 
 @NgModule({
   declarations: [
@@ -16,8 +15,7 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
     ProductsComponent,
     CartComponent,
     AdminComponent,
-    AdminLoginComponent,
-    CheckoutComponent
+    AdminLoginComponent
   ],
   imports: [
     BrowserModule,

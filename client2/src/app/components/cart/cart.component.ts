@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductService } from '../../services/product-service.service';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-cart',
@@ -10,11 +11,27 @@ import { ProductService } from '../../services/product-service.service';
 export class CartComponent implements OnInit {
   cart: any[] = [];
  BASEURL = 'https://miler.onrender.com/uploads/';
-  constructor(private ps: ProductService, private router: Router) { }
+ 
+  constructor(
+    private ps: ProductService,
+    private router: Router,
+    private titleService: Title,
+    private metaService: Meta
+
+  ) { }
 
   ngOnInit() {
     const saved = localStorage.getItem('cart');
     if (saved) this.cart = JSON.parse(saved);
+
+    // Meta Title
+    this.titleService.setTitle('עגלת הקניות – מילר סטנדרים');
+
+    // Meta Description
+    this.metaService.updateTag({
+      name: 'description',
+      content: 'צפי לעגלת הקניות שלך – בדוק את המוצרים שבחרת והמשך לתשלום בקלות באתר מילר סטנדרים.'
+    });
   }
 
   removeFromCart(id: number) {
