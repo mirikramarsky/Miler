@@ -1,0 +1,12 @@
+# לכל מנועי החיפוש
+User-agent: *
+
+# לאנדקס את עמודי ניהול
+Disallow: /admin
+Disallow: /admin/login
+
+# אפשר לסרוק את כל שאר הדפים
+Allow: /
+
+# הפניה למפת אתר
+Sitemap: https://miler.co.il/sitemap.xml
