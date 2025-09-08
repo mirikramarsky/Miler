@@ -1,20 +1,33 @@
 <!-- src/app/admin-login/admin-login.component.html -->
 <div class="login-container">
   <h2>כניסת מנהל</h2>
-  <form (ngSubmit)="login()">
+  <form #loginForm="ngForm" (ngSubmit)="login()">
     <div class="input-group">
       <span class="icon">👤</span>
-      <input type="text" [(ngModel)]="username" name="username" placeholder="שם משתמש" required />
+      <input
+        type="text"
+        [(ngModel)]="username"
+        name="username"
+        placeholder="שם משתמש"
+        required
+      />
     </div>
 
     <div class="input-group">
       <span class="icon">🔒</span>
-      <input [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password" name="password" placeholder="סיסמה" required />
+      <input
+        [type]="showPassword ? 'text' : 'password'"
+        [(ngModel)]="password"
+        name="password"
+        placeholder="סיסמה"
+        required
+      />
       <span class="toggle" (click)="showPassword = !showPassword">
         {{ showPassword ? 'הסתר סיסמה' : 'הצג סיסמה' }}
       </span>
     </div>
 
-    <button type="submit">התחבר</button>
+    <!-- הוספתי גם (click) בנוסף ל-ngSubmit כדי לוודא שתמיד עובד -->
+    <button type="submit" (click)="login()">התחבר</button>
   </form>
 </div>
