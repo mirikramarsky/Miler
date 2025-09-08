@@ -1,9 +1,9 @@
 <!-- src/app/admin-login/admin-login.component.html -->
-<div class="login-container">
+<div class="login-container debug">
   <h2>כניסת מנהל</h2>
+
   <form #loginForm="ngForm" (ngSubmit)="login()">
     <div class="input-group">
-      <span class="icon">👤</span>
       <input
         type="text"
         [(ngModel)]="username"
@@ -14,7 +14,6 @@
     </div>
 
     <div class="input-group">
-      <span class="icon">🔒</span>
       <input
         [type]="showPassword ? 'text' : 'password'"
         [(ngModel)]="password"
@@ -27,7 +26,6 @@
       </span>
     </div>
 
-    <!-- הוספתי גם (click) בנוסף ל-ngSubmit כדי לוודא שתמיד עובד -->
     <button type="submit" (click)="login()">התחבר</button>
   </form>
 </div>

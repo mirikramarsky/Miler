@@ -1,84 +1,103 @@
+/* ====== DEBUG / FORCE styles - להסרה אחרי הבדיקה ====== */
+.login-container.debug {
+  border: 3px dashed magenta !important; /* נראה בקלות */
+  background: #ffffff !important;
+}
+
+/* בסיס כללי */
 .login-container {
-  max-width: 450px;
-  margin: 80px auto;
-  padding: 40px;
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 50px 36px;
   background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  border-radius: 26px !important;
+  box-shadow: 0 14px 40px rgba(0,0,0,0.12);
   text-align: center;
-  color: #000;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* כותרת */
 .login-container h2 {
-  margin-bottom: 30px;
-  font-size: 28px;
-  letter-spacing: 1px;
-  font-weight: 600;
+  margin-bottom: 36px;
+  font-size: 30px;
+  font-weight: 700;
+  color: #222;
 }
 
+/* שדות */
 .input-group {
+  margin-bottom: 36px;
   position: relative;
-  margin: 20px 0;
 }
 
 .input-group input {
-  width: 100%;
-  padding: 14px 16px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  font-size: 16px;
-  outline: none;
-  background-color: #f9f9f9;
-  color: #000;
-  transition: border 0.3s;
+  width: 100% !important;
+  padding: 26px 20px !important;          /* גובה גדול ונוח להקלדה */
+  border: 2px solid #eee !important;
+  border-radius: 22px !important;         /* פינות עגולות */
+  font-size: 20px !important;
+  line-height: 1.6 !important;
+  background-color: #fbfbfb !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.04) !important;
+  transition: all 0.25s ease !important;
 }
 
+/* placeholder ברור */
+.input-group input::placeholder {
+  color: #9b9b9b !important;
+  font-size: 18px !important;
+}
+
+/* בזמן פוקוס */
 .input-group input:focus {
-  border-color: #c6a45d;
-  background-color: #fff;
+  border-color: #4b8cff !important;
+  background-color: #ffffff !important;
+  box-shadow: 0 0 0 8px rgba(75,140,255,0.08) !important;
+  outline: none !important;
 }
 
-.input-group .icon {
-  position: absolute;
-  left: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 20px;
-  color: #999;
-}
-
+/* toggle (show password) */
 .input-group .toggle {
   position: absolute;
-  right: 15px;
+  right: 18px;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
-  font-size: 14px;
-  font-weight: bold;
-  user-select: none;
-  color: #c6a45d;
-  z-index: 1; /* שלא יכסה על הכפתור */
+  font-size: 15px;
+  font-weight: 700;
+  color: #4b8cff;
+  z-index: 5 !important;
+  background: rgba(255,255,255,0.0);
+  padding: 6px 8px;
+  border-radius: 6px;
 }
 
+/* הכפתור — גדול ומואר */
 .login-container form button {
-  width: 100%;
-  padding: 16px;
-  margin-top: 20px;
-  background-color: #000;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.3s;
-  color: #fff;
-  font-weight: bold;
-  display: block;
-  position: relative;
-  z-index: 2; /* שיבטיח שהכפתור מעל הכל */
-  touch-action: manipulation; /* תיקון למסכי טאץ' */
+  width: 100% !important;
+  padding: 22px !important;
+  margin-top: 6px !important;
+  background: linear-gradient(135deg, #4b8cff, #2a66f2) !important;
+  border: none !important;
+  border-radius: 22px !important;
+  font-size: 20px !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  transition: transform 0.18s ease, box-shadow 0.18s ease !important;
+  box-shadow: 0 10px 30px rgba(42,102,242,0.18) !important;
+  position: relative !important;
+  z-index: 9999 !important;         /* על הכל */
+  pointer-events: auto !important;  /* לוודא שניתן ללחוץ */
+  touch-action: manipulation !important;
 }
 
-.login-container form button:hover {
-  background-color: #333;
+/* אפקט הובר/לחיצה */
+.login-container form button:hover,
+.login-container form button:active {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 14px 36px rgba(42,102,242,0.22) !important;
 }
+
+/* FORCE לזיהוי overlays — מומלץ להסיר אחרי בדיקה */
+.login-container * { pointer-events: auto !important; } /* שימוש זמני לבדיקה בלבד */

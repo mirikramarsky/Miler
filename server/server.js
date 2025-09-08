@@ -15,6 +15,9 @@ app.use('/admin', adminRouter);
 require('dotenv').config();
 const paymentRouter = require('./routes/payment.js');
 app.use('/payment', paymentRouter);
+const path = require('path');
+
+
 
 // ב-server.js שלך
 app.post('/checkout', (req, res) => {
@@ -62,6 +65,12 @@ ${items}
     }
     res.json({ success: true });
   });
+});
+// משרת את קבצי Angular סטטיים
+app.use(express.static(path.join(__dirname, 'dist/your-angular-app-name')));
+// כל בקשה שלא תואמת ל-route בשרת תוחזר ל-index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist/your-angular-app-name/index.html'));
 });
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
