@@ -2,8 +2,9 @@
 body {
     direction: rtl;
     font-family: 'Noto Serif Hebrew', serif;
-    background-color: #fff;
-    color: #000;
+    background-color: #393939;
+    color: #c6a45d;
+  font-family: 'Assistant', sans-serif;
 
 }
 /* 
