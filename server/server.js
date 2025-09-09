@@ -67,10 +67,10 @@ ${items}
   });
 });
 // משרת את קבצי Angular סטטיים
-app.use(express.static(path.join(__dirname, '../client2/dist')));
+app.use(express.static(path.join(__dirname, '../client2/dist/client2')));
 // כל בקשה שלא תואמת ל-route בשרת תוחזר ל-index.html
 app.get(/.*/, (req, res) => {
-  res.sendFile(path.join(__dirname, '../client2/dist/index.html'));
+  res.sendFile(path.join(__dirname, '../client2/dist/client2/index.html'));
 });
 
 
