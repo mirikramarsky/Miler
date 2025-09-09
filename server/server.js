@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const fs = require('fs');
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const productsRouter = require('./routes/products.js');
 const adminRouter = require('./routes/admin.js');
 app.use(cors());
@@ -67,10 +67,10 @@ ${items}
   });
 });
 // משרת את קבצי Angular סטטיים
-app.use(express.static(path.join(__dirname, 'dist/your-angular-app-name')));
+app.use(express.static(path.join(__dirname, 'dist/client2')));
 // כל בקשה שלא תואמת ל-route בשרת תוחזר ל-index.html
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist/your-angular-app-name/index.html'));
+  res.sendFile(path.join(__dirname, 'dist/client2/index.html'));
 });
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
