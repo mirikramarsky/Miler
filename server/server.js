@@ -69,8 +69,10 @@ ${items}
 // משרת את קבצי Angular סטטיים
 app.use(express.static(path.join(__dirname, 'dist/client2')));
 // כל בקשה שלא תואמת ל-route בשרת תוחזר ל-index.html
-app.get('*', (req, res) => {
+app.get(/.*/, (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/client2/index.html'));
 });
+
+
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
