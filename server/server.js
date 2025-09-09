@@ -72,6 +72,7 @@ app.use(express.static(path.join(__dirname, '../client2/dist')));
 app.get(/.*/, (req, res) => {
   res.sendFile(path.join(__dirname, '../client2/dist/index.html'));
 });
+console.log('Dist folder contents:', fs.readdirSync(path.join(__dirname, '../client2/dist')));
 
 
 
