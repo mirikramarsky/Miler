@@ -66,13 +66,13 @@ ${items}
     res.json({ success: true });
   });
 });
-// משרת את קבצי Angular סטטיים
-app.use(express.static(path.join(__dirname, '../client2/dist')));
-// כל בקשה שלא תואמת ל-route בשרת תוחזר ל-index.html
-app.get(/.*/, (req, res) => {
-  res.sendFile(path.join(__dirname, '../client2/dist/index.html'));
-});
-console.log('Dist folder contents:', fs.readdirSync(path.join(__dirname, '../client2/dist')));
+// // משרת את קבצי Angular סטטיים
+// app.use(express.static(path.join(__dirname, '../client2/dist')));
+// // כל בקשה שלא תואמת ל-route בשרת תוחזר ל-index.html
+// app.get(/.*/, (req, res) => {
+//   res.sendFile(path.join(__dirname, '../client2/dist/index.html'));
+// });
+// console.log('Dist folder contents:', fs.readdirSync(path.join(__dirname, '../client2/dist')));
 
 
 
