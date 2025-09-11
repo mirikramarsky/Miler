@@ -49,16 +49,12 @@ export class CartComponent implements OnInit {
   continueShopping() {
     this.router.navigate(['/']); // 👈 חוזר למסך המוצרים
   }
-
   goToCheckout() {
-  const total = this.getTotal();
-
-  // שליחת בקשה לשרת לקבל לינק תשלום
-  this.ps.createPayment(total).subscribe((res: any) => {
-    if (res && res.paymentUrl) {
-      window.location.href = res.paymentUrl; // הפניה לדף התשלום של HYP
-    }
-  });
-}
-
+     const total = this.getTotal();
+     console.log( this.cart);
+    this.ps.createPayment(total, this.cart)
+      .subscribe(res => {
+        window.location.href = res.paymentUrl; // מפנה ל-HYP
+      });
+  }
 }

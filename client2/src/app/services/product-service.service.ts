@@ -27,11 +27,13 @@ export class ProductService {
   deleteProduct(id: number): Observable<{ success: boolean }> {
     return this.http.delete<{ success: boolean }>(`${this.API}/products/${id}`);
   }
-  createPayment(amount: number): Observable<{ paymentUrl: string }> {
-    return this.http.post<{ paymentUrl: string }>(`${this.API}/payment/create`, { amount });
+   createPayment(amount: number, order: any) {
+    return this.http.post<{ paymentUrl: string }>('/api/payment/create', { amount, order });
   }
   // שליחת הזמנה
   checkout(order: any): Observable<{ success: boolean }> {
     return this.http.post<{ success: boolean }>(`${this.API}/checkout`, order);
   }
+  
+
 }
