@@ -54,7 +54,7 @@ export class CartComponent implements OnInit {
      console.log( this.cart);
     this.ps.createPayment(total, this.cart)
       .subscribe(res => {
-        window.location.href = res.paymentUrl; // מפנה ל-HYP
+        window.location.href = res.url; // מפנה ל-HYP
       });
   }
 }
