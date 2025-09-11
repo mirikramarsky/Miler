@@ -34,6 +34,7 @@ const heshDesc = order.map(item => ({
   });
 
   const hypUrl = `https://pay.hyp.co.il/paypage.aspx?${params.toString()}`;
+  console.log("HYP Payment URL:", hypUrl);
   res.json({ url: hypUrl });
 });
 router.get("/hyp-callback", async (req, res) => {
