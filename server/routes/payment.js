@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 // פרטים שאת מקבלת מ-HYP
-const TERMINAL_ID = process.env.HYP_TERMINAL || "1234567";
-const RETURN_URL = process.env.HYP_RETURN_URL || "http://localhost:3000/payment-success";
+const TERMINAL_ID = process.env.HYP_TERMINAL;
+const RETURN_URL = process.env.HYP_RETURN_URL || "http://miler.co.il/payment-success";
 
 // שלב 1 - יצירת לינק לתשלום
 router.post("/create", (req, res) => {
@@ -27,10 +27,10 @@ router.get("/success", (req, res) => {
 
   // כאן אפשר לשמור במסד נתונים שהעסקה הצליחה/נכשלה
   console.log("HYP Payment Callback:", req.query);
-
+  sendOrderEmail(order)
   if (CCode === "0") {
     return res.send("✅ התשלום הצליח! מספר עסקה: " + TransId + " סכום: " + Amount + " ₪");
- 
+
   } else {
     return res.send("❌ התשלום נכשל. קוד שגיאה: " + CCode);
   }
