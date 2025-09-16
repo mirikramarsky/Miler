@@ -22,6 +22,7 @@ const heshDesc = order.map(item => ({
     price: item.price
   }));
   const params = new URLSearchParams({
+    kye:process.env.HYP_KEY,
     action: "pay",
     Masof: process.env.HYP_TERMINAL,
     Info: " רכישה באתר מילר סטנדרים",
