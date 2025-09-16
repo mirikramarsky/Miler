@@ -1,10 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
-
-// פרטי HYP
-const TERMINAL_ID = process.env.HYP_TERMINAL;
-const RETURN_URL = process.env.HYP_RETURN_URL || "http://miler.onrender.com/payment-success";
+const fetch = require('node-fetch');
 
 // הגדרת Nodemailer
 const transporter = nodemailer.createTransport({
@@ -14,16 +11,21 @@ const transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASS
   }
 });
-router.post("/create", (req, res) => {
-  const { amount , order} = req.body;
-const heshDesc = order.map(item => ({
+router.post("/create", async (req, res) => {
+  try {
+  ordernum = process.env.HYP_TERMINAL + Date.now().toString().slice(-6);
+  const { amount, order } = req.body;
+  const heshDesc = order.map(item => ({
     description: item.title,
     quantity: item.quantity,
     price: item.price
   }));
   const params = new URLSearchParams({
-    kye:process.env.HYP_KEY,
-    action: "pay",
+    KEY: process.env.HYP_KEY,
+    action: "APISign",
+    What: "SIGN",
+    PassP: "yaad",
+    Order: ordernum,
     Masof: process.env.HYP_TERMINAL,
     Info: " רכישה באתר מילר סטנדרים",
     UTF8: "True",
@@ -34,9 +36,23 @@ const heshDesc = order.map(item => ({
     heshDesc: JSON.stringify(heshDesc) // שולחים כטקסט
   });
 
-  const hypUrl = `https://pay.hyp.co.il/paypage.aspx?${params.toString()}`;
-  console.log("HYP Payment URL:", hypUrl);
-  res.json({ url: hypUrl });
+  const signResponse = await fetch(`https://pay.hyp.co.il/p/?${paramsSign.toString()}`);
+  const signature = await response.text();
+  // Step 2 - בניית URL לדף תשלום עם signature
+    const paramsPay = new URLSearchParams({
+      ...Object.fromEntries(signResponse.entries()), // כל הפרמטרים המקוריים
+      action: "pay",
+      signature
+    });
+        const hypPayUrl = `https://pay.hyp.co.il/p/?${paramsPay.toString()}`;
+
+    console.log("HYP Payment URL:", hypPayUrl);
+    res.json({ url: hypPayUrl });
+
+  } catch (err) {
+    console.error("Payment creation error:", err);
+    res.status(500).json({ error: "Failed to create payment" });
+  }
 });
 router.get("/hyp-callback", async (req, res) => {
   try {
@@ -83,7 +99,7 @@ router.get("/hyp-callback", async (req, res) => {
 router.post('/payment-success', express.json(), (req, res) => {
   const paymentData = req.body; // בדקי איך HYP שולח את הנתונים
 
-  if(paymentData.status === 'success') {
+  if (paymentData.status === 'success') {
     const orderDetails = paymentData.order;
 
     const mailOptions = {
