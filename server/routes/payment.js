@@ -5,13 +5,15 @@ const fetch = (...args) => import('node-fetch').then(mod => mod.default(...args)
 
 router.post("/create", async (req, res) => {
   try {
-    ordernum = process.env.HYP_TERMINAL + Date.now().toString().slice(-6);
+    const ordernum = process.env.HYP_TERMINAL + Date.now().toString().slice(-6);
     const { amount, order } = req.body;
+
     const heshDesc = order.map(item => ({
       description: item.title,
       quantity: item.quantity,
       price: item.price
     }));
+
     const params = new URLSearchParams({
       KEY: process.env.HYP_KEY,
       action: "APISign",
@@ -25,17 +27,26 @@ router.post("/create", async (req, res) => {
       Amount: amount.toString(),
       SendHesh: "True",
       Pritim: "True",
-      heshDesc: JSON.stringify(heshDesc)
+      heshDesc: JSON.stringify(heshDesc),
+      Sign: "True",
+      MoreData: "True"
     });
 
+    // Step 1 – שליחת בקשה ל-APISign
     const signResponse = await fetch(`https://pay.hyp.co.il/p/?${params.toString()}`);
-    const signature = await signResponse.text();
+    const signText = await signResponse.text();
 
+    // חליצה נכונה של ה-signature מהתגובה
+    const urlParams = new URLSearchParams(signText);
+    const signature = urlParams.get("signature");
+
+    // Step 2 – בניית URL לדף תשלום עם ה-signature
     const paramsPay = new URLSearchParams({
       ...Object.fromEntries(params.entries()),
       action: "pay",
       signature
     });
+
     const hypPayUrl = `https://pay.hyp.co.il/p/?${paramsPay.toString()}`;
 
     console.log("HYP Payment URL:", hypPayUrl);
@@ -46,6 +57,7 @@ router.post("/create", async (req, res) => {
     res.status(500).json({ error: "Failed to create payment" });
   }
 });
+
 
 
 // הגדרת Nodemailer
