@@ -36,7 +36,7 @@ router.post("/create", async (req, res) => {
     heshDesc: JSON.stringify(heshDesc) // שולחים כטקסט
   });
 
-  const signResponse = await fetch(`https://pay.hyp.co.il/p/?${paramsSign.toString()}`);
+  const signResponse = await fetch(`https://pay.hyp.co.il/p/?${params.toString()}`);
   const signature = await response.text();
   // Step 2 - בניית URL לדף תשלום עם signature
     const paramsPay = new URLSearchParams({
