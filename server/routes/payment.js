@@ -1,7 +1,52 @@
 const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
-const fetch = require('node-fetch');
+const fetch = (...args) => import('node-fetch').then(mod => mod.default(...args));
+
+router.post("/create", async (req, res) => {
+  try {
+    ordernum = process.env.HYP_TERMINAL + Date.now().toString().slice(-6);
+    const { amount, order } = req.body;
+    const heshDesc = order.map(item => ({
+      description: item.title,
+      quantity: item.quantity,
+      price: item.price
+    }));
+    const params = new URLSearchParams({
+      KEY: process.env.HYP_KEY,
+      action: "APISign",
+      What: "SIGN",
+      PassP: "yaad",
+      Order: ordernum,
+      Masof: process.env.HYP_TERMINAL,
+      Info: " רכישה באתר מילר סטנדרים",
+      UTF8: "True",
+      UTF8out: "True",
+      Amount: amount.toString(),
+      SendHesh: "True",
+      Pritim: "True",
+      heshDesc: JSON.stringify(heshDesc)
+    });
+
+    const signResponse = await fetch(`https://pay.hyp.co.il/p/?${params.toString()}`);
+    const signature = await signResponse.text();
+
+    const paramsPay = new URLSearchParams({
+      ...Object.fromEntries(params.entries()),
+      action: "pay",
+      signature
+    });
+    const hypPayUrl = `https://pay.hyp.co.il/p/?${paramsPay.toString()}`;
+
+    console.log("HYP Payment URL:", hypPayUrl);
+    res.json({ url: hypPayUrl });
+
+  } catch (err) {
+    console.error("Payment creation error:", err);
+    res.status(500).json({ error: "Failed to create payment" });
+  }
+});
+
 
 // הגדרת Nodemailer
 const transporter = nodemailer.createTransport({
@@ -37,7 +82,7 @@ router.post("/create", async (req, res) => {
   });
 
   const signResponse = await fetch(`https://pay.hyp.co.il/p/?${params.toString()}`);
-  const signature = await response.text();
+  const signature = await signResponse.text();
   // Step 2 - בניית URL לדף תשלום עם signature
     const paramsPay = new URLSearchParams({
       ...Object.fromEntries(signResponse.entries()), // כל הפרמטרים המקוריים
