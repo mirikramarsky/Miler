@@ -217,7 +217,7 @@ router.post("/create", async (req, res) => {
       KEY: process.env.HYP_KEY,
       action: "APISign",
       What: "SIGN",
-      PassP: "yaad.net",
+      PassP: yaad.net,
       Order: ordernum,
       Masof: process.env.HYP_TERMINAL,
       Info: "רכישה באתר מילר סטנדרים",
