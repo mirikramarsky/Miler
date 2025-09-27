@@ -8,7 +8,7 @@
 //     const ordernum = process.env.HYP_TERMINAL + Date.now().toString().slice(-6);
 //     const { amount, order } = req.body;
 //     console.log("Creating payment:", { amount, order });
-    
+
 //     const heshDesc = order.map(item => ({
 //       description: item.title,
 //       quantity: item.quantity,
@@ -246,10 +246,23 @@ router.post("/create", async (req, res) => {
     }
 
     // שלב 2 – בניית לינק לתשלום
+    // paramsPay צריכים להכיל רק את הפרמטרים המקוריים של APISign + action=pay + signature
     const paramsPay = new URLSearchParams({
-      ...Object.fromEntries(params.entries()),
+      KEY: process.env.HYP_KEY,
+      PassP: process.env.HYP_PASS,
+      Order: ordernum,
+      Masof: process.env.HYP_TERMINAL,
+      Amount: amount.toString(),
+      UTF8: "True",
+      UTF8out: "True",
+      Info: "רכישה באתר מילר סטנדרים",
+      SendHesh: "True",
+      Pritim: "True",
+      heshDesc: JSON.stringify(heshDesc),
+      MoreData: "True",
+      Sign: "True",
       action: "pay",
-      signature,
+      signature
     });
 
     const hypPayUrl = `https://pay.hyp.co.il/p/?${paramsPay.toString()}`;
@@ -311,8 +324,8 @@ router.post("/payment-success", express.json(), async (req, res) => {
         <p>מוצרים:</p>
         <ul>
           ${orderDetails.products
-            .map(p => `<li>${p.name} - כמות: ${p.quantity}</li>`)
-            .join("")}
+          .map(p => `<li>${p.name} - כמות: ${p.quantity}</li>`)
+          .join("")}
         </ul>
         <p>סה"כ: ${orderDetails.total} ש"ח</p>
       `,
