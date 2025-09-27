@@ -7,7 +7,8 @@ router.post("/create", async (req, res) => {
   try {
     const ordernum = process.env.HYP_TERMINAL + Date.now().toString().slice(-6);
     const { amount, order } = req.body;
-
+    console.log("Creating payment:", { amount, order });
+    
     const heshDesc = order.map(item => ({
       description: item.title,
       quantity: item.quantity,

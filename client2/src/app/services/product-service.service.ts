@@ -28,6 +28,7 @@ export class ProductService {
     return this.http.delete<{ success: boolean }>(`${this.API}/products/${id}`);
   }
    createPayment(amount: number, order: any) {
+    console.log(amount, order);
     return this.http.post<{ url: string }>(`${this.API}/payment/create`, { amount, order });
   }
   // שליחת הזמנה
