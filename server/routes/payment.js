@@ -228,15 +228,16 @@ router.post("/create", async (req, res) => {
       Sign: "True",
       MoreData: "True",
     });
+    console.log("🔹 Params for APISign:", params.toString());
 
     const signResponse = await fetch(`https://pay.hyp.co.il/p/?${params.toString()}`);
     const signText = await signResponse.text();
-
+    console.log("🔹 Raw signText from HYP:", signText);
     console.log("Sign response text:", signText); // למעקב
 
     const urlParams = new URLSearchParams(signText);
     const signature = urlParams.get("signature");
-
+    console.log("🔹 Extracted signature:", signature);
     if (!signature) {
       console.error("❌ Signature not returned:", signText);
       return res.status(500).json({ error: "Failed to get signature" });
@@ -260,6 +261,7 @@ router.post("/create", async (req, res) => {
       action: "pay",
       signature,
     });
+    console.log("🔹 Params for pay:", paramsPay.toString());
 
     const hypPayUrl = `https://pay.hyp.co.il/p/?${paramsPay.toString()}`;
     console.log("✅ HYP Payment URL:", hypPayUrl);
