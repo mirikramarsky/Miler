@@ -195,14 +195,11 @@ const fetch = (...args) =>
 // ===========================
 router.post("/create", async (req, res) => {
   try {
-    const ordernum =
-      process.env.HYP_TERMINAL + Date.now().toString().slice(-6);
+    const ordernum = process.env.HYP_TERMINAL + Date.now().toString().slice(-6);
     const { amount, order } = req.body;
 
     if (!amount || !order) {
-      return res
-        .status(400)
-        .json({ error: "Missing amount or order details" });
+      return res.status(400).json({ error: "Missing amount or order details" });
     }
 
     console.log("🔹 Creating payment:", { amount, order });
@@ -213,11 +210,12 @@ router.post("/create", async (req, res) => {
       price: item.price,
     }));
 
+    // בקשה ל-APISign לקבלת חתימה
     const params = new URLSearchParams({
       KEY: process.env.HYP_KEY,
       action: "APISign",
       What: "SIGN",
-      PassP: process.env.HYP_PASS, // סיסמת ה-PassP מ-HYP
+      PassP: process.env.HYP_PASS,
       Order: ordernum,
       Masof: process.env.HYP_TERMINAL,
       Info: "רכישה באתר מילר סטנדרים",
@@ -231,11 +229,10 @@ router.post("/create", async (req, res) => {
       MoreData: "True",
     });
 
-    // שלב 1 – בקשת חתימה
-    const signResponse = await fetch(
-      `https://pay.hyp.co.il/p/?${params.toString()}`
-    );
+    const signResponse = await fetch(`https://pay.hyp.co.il/p/?${params.toString()}`);
     const signText = await signResponse.text();
+
+    console.log("Sign response text:", signText); // למעקב
 
     const urlParams = new URLSearchParams(signText);
     const signature = urlParams.get("signature");
@@ -245,8 +242,7 @@ router.post("/create", async (req, res) => {
       return res.status(500).json({ error: "Failed to get signature" });
     }
 
-    // שלב 2 – בניית לינק לתשלום
-    // paramsPay צריכים להכיל רק את הפרמטרים המקוריים של APISign + action=pay + signature
+    // בניית לינק לתשלום עם החתימה
     const paramsPay = new URLSearchParams({
       KEY: process.env.HYP_KEY,
       PassP: process.env.HYP_PASS,
@@ -262,7 +258,7 @@ router.post("/create", async (req, res) => {
       MoreData: "True",
       Sign: "True",
       action: "pay",
-      signature
+      signature,
     });
 
     const hypPayUrl = `https://pay.hyp.co.il/p/?${paramsPay.toString()}`;
