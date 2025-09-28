@@ -35,7 +35,7 @@ export class ProductService {
   //   );
   // }
   createPayment(amount: number, order: any) {
-    return this.http.post<{ url:string }>(
+    return this.http.post<{ url:any }>(
       `${this.API}/payment/create`,
       { amount, order }
     );
