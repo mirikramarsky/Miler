@@ -82,7 +82,7 @@ export class CartComponent implements OnInit {
   payUrl.searchParams.set("Sign", "True");
   payUrl.searchParams.set("action", "pay");
   payUrl.searchParams.set("signature", signature);
-
+  console.log("Redirecting to HYP with URL:", payUrl.toString());
   window.location.href = payUrl.toString();
 });
 
