@@ -5,12 +5,14 @@ import { CartComponent } from './components/cart/cart.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { AdminGuard } from './guards/admin-guard.guard';
 import { AdminLoginComponent } from './components/admin-login/admin-login.component';
+import { SuccessComponent } from './components/success/success.component';
 
 const routes: Routes = [
    { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: ProductsComponent },
   { path: 'cart', component: CartComponent },
     { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] },
+     { path: 'success', component:SuccessComponent },
   { path: 'admin/login', component: AdminLoginComponent },
   { path: '**', redirectTo: '/home' }
 ];

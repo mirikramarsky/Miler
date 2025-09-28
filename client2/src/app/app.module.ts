@@ -8,6 +8,7 @@ import { AdminComponent } from './components/admin/admin.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AdminLoginComponent } from './components/admin-login/admin-login.component';
+import { SuccessComponent } from './components/success/success.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { AdminLoginComponent } from './components/admin-login/admin-login.compon
     ProductsComponent,
     CartComponent,
     AdminComponent,
-    AdminLoginComponent
+    AdminLoginComponent,
+    SuccessComponent
   ],
   imports: [
     BrowserModule,

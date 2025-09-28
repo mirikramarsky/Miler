@@ -1,0 +1,15 @@
+<div class="success-page">
+  <h1>✅ התשלום בוצע בהצלחה!</h1>
+  <p>מספר הזמנה: {{ orderId }}</p>
+  <p>סכום: {{ amount }} ש"ח</p>
+
+  <h3>מוצרים בהזמנה:</h3>
+  <ul>
+    <li *ngFor="let product of products">
+      {{ product.name }} - כמות: {{ product.quantity }} - מחיר: {{ product.price }}
+    </li>
+  </ul>
+
+  <p>תודה שקניתם אצלנו!</p>
+  <a routerLink="/">חזרה לדף הבית</a>
+</div>
