@@ -27,14 +27,19 @@ export class ProductService {
   deleteProduct(id: number): Observable<{ success: boolean }> {
     return this.http.delete<{ success: boolean }>(`${this.API}/products/${id}`);
   }
+  // createPayment(amount: number, order: any) {
+  //   console.log(amount, order);
+  //   return this.http.post<{ signature: string, ordernum: string }>(
+  //     `${this.API}/payment/create`,
+  //     { amount, order }
+  //   );
+  // }
   createPayment(amount: number, order: any) {
-    console.log(amount, order);
-    return this.http.post<{ signature: string, ordernum: string }>(
+    return this.http.post<{ url:string }>(
       `${this.API}/payment/create`,
       { amount, order }
     );
   }
-
   // שליחת הזמנה
   checkout(order: any): Observable<{ success: boolean }> {
     return this.http.post<{ success: boolean }>(`${this.API}/checkout`, order);

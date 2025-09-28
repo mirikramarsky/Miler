@@ -194,122 +194,122 @@ const fetch = (...args) =>
 // יצירת תשלום HYP
 // ===========================
 router.post("/create", async (req, res) => {
-  // try {
-  //   const ordernum = process.env.HYP_TERMINAL + Date.now().toString().slice(-6);
-  //   const { amount, order } = req.body;
-
-  //   if (!amount || !order) {
-  //     return res.status(400).json({ error: "Missing amount or order details" });
-  //   }
-
-  //   console.log("🔹 Creating payment:", { amount, order });
-
-  //   const heshDesc = order.map(item => ({
-  //     description: item.title,
-  //     quantity: item.quantity,
-  //     price: item.price,
-  //   }));
-
-  //   // בקשה ל-APISign לקבלת חתימה
-  //   const params = new URLSearchParams({
-  //     KEY: process.env.HYP_KEY,
-  //     action: "APISign",
-  //     What: "SIGN",
-  //     PassP: process.env.HYP_PASS,
-  //     Order: ordernum,
-  //     Masof: process.env.HYP_TERMINAL,
-  //     Info: "רכישה באתר מילר סטנדרים",
-  //     UTF8: "True",
-  //     UTF8out: "True",
-  //     Amount: amount.toString(),
-  //     SendHesh: "True",
-  //     Pritim: "True",
-  //     heshDesc: JSON.stringify(heshDesc),
-  //     Sign: "True",
-  //     MoreData: "True",
-  //   });
-  //   console.log("🔹 Params for APISign:", params.toString());
-
-  //   const signResponse = await fetch(`https://pay.hyp.co.il/p/?${params.toString()}`);
-  //   const signText = await signResponse.text();
-  //   console.log("🔹 Raw signText from HYP:", signText);
-  //   console.log("Sign response text:", signText); // למעקב
-
-  //   const urlParams = new URLSearchParams(signText);
-  //   const signature = urlParams.get("signature");
-  //   console.log("🔹 Extracted signature:", signature);
-  //   if (!signature) {
-  //     console.error("❌ Signature not returned:", signText);
-  //     return res.status(500).json({ error: "Failed to get signature" });
-  //   }
-
-  //   // בניית לינק לתשלום עם החתימה
-  //   const paramsPay = new URLSearchParams({
-  //     KEY: process.env.HYP_KEY,
-  //     PassP: process.env.HYP_PASS,
-  //     Order: ordernum,
-  //     Masof: process.env.HYP_TERMINAL,
-  //     Amount: amount.toString(),
-  //     UTF8: "True",
-  //     UTF8out: "True",
-  //     Info: "רכישה באתר מילר סטנדרים",
-  //     SendHesh: "True",
-  //     Pritim: "True",
-  //     heshDesc: JSON.stringify(heshDesc),
-  //     MoreData: "True",
-  //     Sign: "True",
-  //     action: "pay",
-  //     signature,
-  //   });
-  //   console.log("🔹 Params for pay:", paramsPay.toString());
-
-  //   const hypPayUrl = `https://pay.hyp.co.il/p/?${paramsPay.toString()}`;
-  //   console.log("✅ HYP Payment URL:", hypPayUrl);
-
-  //   res.json({ url: hypPayUrl });
-  // } catch (err) {
-  //   console.error("❌ Payment creation error:", err);
-  //   res.status(500).json({ error: "Failed to create payment" });
-  // }
-  const { amount, order } = req.body;
-
-  const heshDesc = order.map(item => ({
-    description: item.title,
-    quantity: item.quantity,
-    price: item.price,
-  }));
-
-  // בונים מספר הזמנה
-  const ordernum = process.env.HYP_TERMINAL + Date.now().toString().slice(-6);
-
-  const params = new URLSearchParams({
-    KEY: process.env.HYP_KEY,
-    action: "APISign",
-    What: "SIGN",
-    PassP: process.env.HYP_PASS,
-    Order: ordernum,
-    Masof: process.env.HYP_TERMINAL,
-    Info: "רכישה באתר מילר סטנדרים",
-    Amount: amount.toString(),
-    heshDesc: JSON.stringify(heshDesc),
-    Sign: "True",
-    MoreData: "True",
-    UTF8: "True",
-    UTF8out: "True",
-    SendHesh: "True",
-    Pritim: "True",
-  });
-
   try {
+    const ordernum = process.env.HYP_TERMINAL + Date.now().toString().slice(-6);
+    const { amount, order } = req.body;
+
+    if (!amount || !order) {
+      return res.status(400).json({ error: "Missing amount or order details" });
+    }
+
+    console.log("🔹 Creating payment:", { amount, order });
+
+    const heshDesc = order.map(item => ({
+      description: item.title,
+      quantity: item.quantity,
+      price: item.price,
+    }));
+
+    // בקשה ל-APISign לקבלת חתימה
+    const params = new URLSearchParams({
+      KEY: process.env.HYP_KEY,
+      action: "APISign",
+      What: "SIGN",
+      PassP: process.env.HYP_PASS,
+      Order: ordernum,
+      Masof: process.env.HYP_TERMINAL,
+      Info: "רכישה באתר מילר סטנדרים",
+      UTF8: "True",
+      UTF8out: "True",
+      Amount: amount.toString(),
+      SendHesh: "True",
+      Pritim: "True",
+      heshDesc: JSON.stringify(heshDesc),
+      Sign: "True",
+      MoreData: "True",
+    });
+    console.log("🔹 Params for APISign:", params.toString());
+
     const signResponse = await fetch(`https://pay.hyp.co.il/p/?${params.toString()}`);
     const signText = await signResponse.text();
-    const signature = new URLSearchParams(signText).get("signature");
-    console.log("Response to client:", { signature, ordernum });
-    res.json({ signature, ordernum });
+    console.log("🔹 Raw signText from HYP:", signText);
+    console.log("Sign response text:", signText); // למעקב
+
+    const urlParams = new URLSearchParams(signText);
+    const signature = urlParams.get("signature");
+    console.log("🔹 Extracted signature:", signature);
+    if (!signature) {
+      console.error("❌ Signature not returned:", signText);
+      return res.status(500).json({ error: "Failed to get signature" });
+    }
+
+    // בניית לינק לתשלום עם החתימה
+    const paramsPay = new URLSearchParams({
+      KEY: process.env.HYP_KEY,
+      PassP: process.env.HYP_PASS,
+      Order: ordernum,
+      Masof: process.env.HYP_TERMINAL,
+      Amount: amount.toString(),
+      UTF8: "True",
+      UTF8out: "True",
+      Info: "רכישה באתר מילר סטנדרים",
+      SendHesh: "True",
+      Pritim: "True",
+      heshDesc: JSON.stringify(heshDesc),
+      MoreData: "True",
+      Sign: "True",
+      action: "pay",
+      signature,
+    });
+    console.log("🔹 Params for pay:", paramsPay.toString());
+
+    const hypPayUrl = `https://pay.hyp.co.il/p/?${paramsPay.toString()}`;
+    console.log("✅ HYP Payment URL:", hypPayUrl);
+
+    res.json({ url: hypPayUrl });
   } catch (err) {
-    console.error("Error getting signature:", err);
+    console.error("❌ Payment creation error:", err);
     res.status(500).json({ error: "Failed to create payment" });
   }
+//   const { amount, order } = req.body;
+
+//   const heshDesc = order.map(item => ({
+//     description: item.title,
+//     quantity: item.quantity,
+//     price: item.price,
+//   }));
+
+//   // בונים מספר הזמנה
+//   const ordernum = process.env.HYP_TERMINAL + Date.now().toString().slice(-6);
+
+//   const params = new URLSearchParams({
+//     KEY: process.env.HYP_KEY,
+//     action: "APISign",
+//     What: "SIGN",
+//     PassP: process.env.HYP_PASS,
+//     Order: ordernum,
+//     Masof: process.env.HYP_TERMINAL,
+//     Info: "רכישה באתר מילר סטנדרים",
+//     Amount: amount.toString(),
+//     heshDesc: JSON.stringify(heshDesc),
+//     Sign: "True",
+//     MoreData: "True",
+//     UTF8: "True",
+//     UTF8out: "True",
+//     SendHesh: "True",
+//     Pritim: "True",
+//   });
+
+//   try {
+//     const signResponse = await fetch(`https://pay.hyp.co.il/p/?${params.toString()}`);
+//     const signText = await signResponse.text();
+//     const signature = new URLSearchParams(signText).get("signature");
+//     console.log("Response to client:", { signature, ordernum });
+//     res.json({ signature, ordernum });
+//   } catch (err) {
+//     console.error("Error getting signature:", err);
+//     res.status(500).json({ error: "Failed to create payment" });
+//   }
 });
 
 // ===========================
