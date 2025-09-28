@@ -3,6 +3,7 @@ const router = express.Router();
 const nodemailer = require("nodemailer");
 const fetch = (...args) =>
   import("node-fetch").then(mod => mod.default(...args));
+require('dotenv').config();
 
 // ===========================
 // יצירת תשלום HYP
@@ -142,48 +143,90 @@ router.post("/create", async (req, res) => {
 //     res.status(500).send("ERROR");
 //   }
 // });
+// router.get("/hyp-callback", async (req, res) => {
+//   try {
+//     const data = req.query; // נתוני התשלום מ-HYP
+//     console.log("🔹 HYP Callback:", data);
+
+//     // בדיקה אם התשלום הצליח
+//     if (data.Status !== "0") { // HYP מחזיר 0 במידה והכל OK
+//       return res.redirect("miler.co.il/payment-failed"); // לדף כשלון
+//     }
+
+//     // כאן אפשר לשמור את ההזמנה ב-DB
+//     // await savePaymentResult(data);
+
+//     // שליחת מייל למוכר
+//     const mailToSeller = {
+//       from: process.env.EMAIL_USER,
+//       to: process.env.SELLER_EMAIL,
+//       subject: `הזמנה חדשה #${data.Order}`,
+//       html: `
+//         <h3>הזמנה חדשה התקבלה</h3>
+//         <p>סכום לתשלום: ${data.Amount} ש"ח</p>
+//         <p>מספר הזמנה: ${data.Order}</p>
+//       `,
+//     };
+
+//     // שליחת מייל ללקוח (אם יש אימייל ב-Query)
+//     const mailToCustomer = {
+//       from: process.env.EMAIL_USER,
+//       to: data.email || "customer@example.com",
+//       subject: `תשלום התקבל בהצלחה #${data.Order}`,
+//       html: `
+//         <h3>תודה על הרכישה!</h3>
+//         <p>סכום ששולם: ${data.Amount} ש"ח</p>
+//         <p>מספר הזמנה: ${data.Order}</p>
+//       `,
+//     };
+
+//     await transporter.sendMail(mailToSeller);
+//     await transporter.sendMail(mailToCustomer);
+
+//     // בסוף - הפניה לדף הצלחה
+//     res.redirect(`miler.co.il/success?orderId=${data.Order}&amount=${data.Amount}&products=${encodeURIComponent(JSON.stringify(orderItems))}`);
+//   } catch (err) {
+//     console.error("❌ Callback error:", err);
+//     res.status(500).send("ERROR");
+//   }
+// });
+const generateInvoice = require("../invoice");
+
 router.get("/hyp-callback", async (req, res) => {
   try {
-    const data = req.query; // נתוני התשלום מ-HYP
+    const data = req.query;
     console.log("🔹 HYP Callback:", data);
 
-    // בדיקה אם התשלום הצליח
-    if (data.Status !== "0") { // HYP מחזיר 0 במידה והכל OK
-      return res.redirect("/payment-failed"); // לדף כשלון
+    if (data.Status !== "0") {
+      return res.redirect("miler.co.il/payment-failed");
     }
 
-    // כאן אפשר לשמור את ההזמנה ב-DB
-    // await savePaymentResult(data);
+    // דוגמה ל-orderItems, את יכולה להביא אותם מה־DB
+    const orderItems = [
+      { title: "מוצר א", quantity: 2, price: 50 },
+      { title: "מוצר ב", quantity: 1, price: 50 },
+    ];
 
-    // שליחת מייל למוכר
-    const mailToSeller = {
-      from: process.env.EMAIL_USER,
-      to: process.env.SELLER_EMAIL,
-      subject: `הזמנה חדשה #${data.Order}`,
-      html: `
-        <h3>הזמנה חדשה התקבלה</h3>
-        <p>סכום לתשלום: ${data.Amount} ש"ח</p>
-        <p>מספר הזמנה: ${data.Order}</p>
-      `,
-    };
+    // ===== יצירת חשבונית PDF =====
+    const invoicePath = await generateInvoice({
+      Order: data.Order,
+      Amount: data.Amount,
+      email: data.email,
+      orderItems,
+    });
 
-    // שליחת מייל ללקוח (אם יש אימייל ב-Query)
+    // ===== שליחת מייל ללקוח עם החשבונית =====
     const mailToCustomer = {
       from: process.env.EMAIL_USER,
       to: data.email || "customer@example.com",
-      subject: `תשלום התקבל בהצלחה #${data.Order}`,
-      html: `
-        <h3>תודה על הרכישה!</h3>
-        <p>סכום ששולם: ${data.Amount} ש"ח</p>
-        <p>מספר הזמנה: ${data.Order}</p>
-      `,
+      subject: `חשבונית מס #${data.Order}`,
+      html: "<h3>תודה על הרכישה! מצורפת החשבונית שלך.</h3>",
+      attachments: [{ filename: `invoice_${data.Order}.pdf`, path: invoicePath }],
     };
 
-    await transporter.sendMail(mailToSeller);
     await transporter.sendMail(mailToCustomer);
 
-    // בסוף - הפניה לדף הצלחה
-    res.redirect(`miler.co.il/success?orderId=${data.Order}&amount=${data.Amount}&products=${encodeURIComponent(JSON.stringify(orderItems))}`);
+    res.redirect(`miler.co.il/success?orderId=${data.Order}`);
   } catch (err) {
     console.error("❌ Callback error:", err);
     res.status(500).send("ERROR");

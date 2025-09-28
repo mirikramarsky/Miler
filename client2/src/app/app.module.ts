@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AdminLoginComponent } from './components/admin-login/admin-login.component';
 import { SuccessComponent } from './components/success/success.component';
+import { FailedComponent } from './components/failed/failed.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { SuccessComponent } from './components/success/success.component';
     CartComponent,
     AdminComponent,
     AdminLoginComponent,
-    SuccessComponent
+    SuccessComponent,
+    FailedComponent
   ],
   imports: [
     BrowserModule,
