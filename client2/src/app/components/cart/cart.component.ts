@@ -49,12 +49,39 @@ export class CartComponent implements OnInit {
   continueShopping() {
     this.router.navigate(['/']); // 👈 חוזר למסך המוצרים
   }
+  // goToCheckout() {
+  //    const total = this.getTotal();
+  //    console.log( this.cart);
+  //   this.ps.createPayment(total, this.cart)
+  //     .subscribe(res => {
+  //       window.location.href = res.url; // מפנה ל-HYP
+  //     });
+  // }
   goToCheckout() {
-     const total = this.getTotal();
-     console.log( this.cart);
-    this.ps.createPayment(total, this.cart)
-      .subscribe(res => {
-        window.location.href = res.url; // מפנה ל-HYP
-      });
-  }
+  const total = this.getTotal();
+  console.log("Cart:", this.cart);
+
+  this.ps.createPayment(total, this.cart).subscribe(res => {
+  const { signature, ordernum } = res; // תדאגי שהשרת יחזיר גם ordernum
+  const HYP_TERMINAL = '4502081530'; // החליפי בקוד הטרמינל שלך
+  const payUrl = new URL("https://pay.hyp.co.il/p/");
+  payUrl.searchParams.set("Order", ordernum);
+  payUrl.searchParams.set("Masof", HYP_TERMINAL);
+  payUrl.searchParams.set("Amount", total.toString());
+  payUrl.searchParams.set("UTF8", "True");
+  payUrl.searchParams.set("UTF8out", "True");
+  payUrl.searchParams.set("Info", "רכישה באתר מילר סטנדרים");
+  payUrl.searchParams.set("SendHesh", "True");
+  payUrl.searchParams.set("Pritim", "True");
+  payUrl.searchParams.set("MoreData", "True");
+  payUrl.searchParams.set("heshDesc", JSON.stringify(this.cart));
+  payUrl.searchParams.set("Sign", "True");
+  payUrl.searchParams.set("action", "pay");
+  payUrl.searchParams.set("signature", signature);
+
+  window.location.href = payUrl.toString();
+});
+
+}
+
 }
