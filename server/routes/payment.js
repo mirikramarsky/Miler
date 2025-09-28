@@ -304,7 +304,7 @@ router.post("/create", async (req, res) => {
     const signResponse = await fetch(`https://pay.hyp.co.il/p/?${params.toString()}`);
     const signText = await signResponse.text();
     const signature = new URLSearchParams(signText).get("signature");
-
+    console.log("Response to client:", { signature, ordernum });
     res.json({ signature, ordernum });
   } catch (err) {
     console.error("Error getting signature:", err);

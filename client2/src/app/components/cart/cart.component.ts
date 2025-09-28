@@ -62,6 +62,10 @@ export class CartComponent implements OnInit {
   console.log("Cart:", this.cart);
 
   this.ps.createPayment(total, this.cart).subscribe(res => {
+      if (!res.signature || !res.ordernum) {
+    console.error("Server response missing data", res);
+    return;
+  }
   const { signature, ordernum } = res; // תדאגי שהשרת יחזיר גם ordernum
   const HYP_TERMINAL = '4502081530'; // החליפי בקוד הטרמינל שלך
   const payUrl = new URL("https://pay.hyp.co.il/p/");
