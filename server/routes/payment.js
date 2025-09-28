@@ -279,12 +279,15 @@ router.post("/create", async (req, res) => {
     price: item.price,
   }));
 
+  // בונים מספר הזמנה
+  const ordernum = process.env.HYP_TERMINAL + Date.now().toString().slice(-6);
+
   const params = new URLSearchParams({
     KEY: process.env.HYP_KEY,
     action: "APISign",
     What: "SIGN",
     PassP: process.env.HYP_PASS,
-    Order: process.env.HYP_TERMINAL + Date.now().toString().slice(-6),
+    Order: ordernum,
     Masof: process.env.HYP_TERMINAL,
     Info: "רכישה באתר מילר סטנדרים",
     Amount: amount.toString(),
@@ -297,11 +300,16 @@ router.post("/create", async (req, res) => {
     Pritim: "True",
   });
 
-  const signResponse = await fetch(`https://pay.hyp.co.il/p/?${params.toString()}`);
-  const signText = await signResponse.text();
-  const signature = new URLSearchParams(signText).get("signature");
+  try {
+    const signResponse = await fetch(`https://pay.hyp.co.il/p/?${params.toString()}`);
+    const signText = await signResponse.text();
+    const signature = new URLSearchParams(signText).get("signature");
 
-  res.json({ signature });
+    res.json({ signature, ordernum });
+  } catch (err) {
+    console.error("Error getting signature:", err);
+    res.status(500).json({ error: "Failed to create payment" });
+  }
 });
 
 // ===========================
