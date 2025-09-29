@@ -198,7 +198,7 @@ router.get("/hyp-callback", async (req, res) => {
     console.log("🔹 HYP Callback:", data);
 
     if (data.Status !== "0") {
-      return res.redirect("miler.co.il/payment-failed");
+      return res.redirect("https://miler.co.il/payment-failed");
     }
 
     // דוגמה ל-orderItems, את יכולה להביא אותם מה־DB
@@ -209,6 +209,12 @@ router.get("/hyp-callback", async (req, res) => {
 
     // ===== יצירת חשבונית PDF =====
     const invoicePath = await generateInvoice({
+      zip: "1234567",
+      city: "תל אביב",
+      address: "רחוב הדוגמא 1",
+      phone: "050-1234567",
+      lastName: "ישראלי",
+      firstName: "דוד",
       Order: data.Order,
       Amount: data.Amount,
       email: data.email,
@@ -221,12 +227,31 @@ router.get("/hyp-callback", async (req, res) => {
       to: data.email || "customer@example.com",
       subject: `חשבונית מס #${data.Order}`,
       html: "<h3>תודה על הרכישה! מצורפת החשבונית שלך.</h3>",
-      attachments: [{ filename: `invoice_${data.Order}.pdf`, path: invoicePath }],
+      attachments: [
+        { filename: `invoice_${data.Order}.pdf`, path: invoicePath }
+      ],
     };
-
+    const mailToSeller = {
+      from: process.env.EMAIL_USER,
+      to: process.env.SELLER_EMAIL, // כתובת שלך, תשימי בקובץ .env
+      subject: `התקבלה הזמנה חדשה #${data.Order}`,
+      html: `
+    <h3>התקבלה הזמנה חדשה</h3>
+    <p>מספר הזמנה: ${data.Order}</p>
+    <p>סכום: ${data.Amount} ₪</p>
+    <p>לקוח: ${data.email}</p>
+    <br>
+    מצורפת החשבונית שנשלחה ללקוח.
+  `,
+      attachments: [
+        { filename: `invoice_${data.Order}.pdf`, path: invoicePath }
+      ],
+    };
+    await transporter.sendMail(mailToSeller);
     await transporter.sendMail(mailToCustomer);
 
-    res.redirect(`miler.co.il/success?orderId=${data.Order}`);
+    res.redirect(`https://miler.co.il/success?orderId=${data.Order}&amount=${data.Amount}&products=${encodeURIComponent(JSON.stringify(orderItems))}  `);
+
   } catch (err) {
     console.error("❌ Callback error:", err);
     res.status(500).send("ERROR");
