@@ -393,8 +393,7 @@ function generateInvoice(orderData) {
   });
   doc.text(fixRTL(`אימייל  :   ${orderData.email || ""}`), { align: "right" });
   // פרטי לקוח
-  doc.moveDown().fontSize(14).text(fixRTL(`שם   פרטי   :   ${orderData.firstName || ""}`), { align: "right" });
-  doc.text(fixRTL(`שם   משפחה   :   ${orderData.lastName || ""}`), { align: "right" });
+  doc.moveDown().fontSize(14).text(fixRTL(`שם   :   ${orderData.name || ""}`), { align: "right" });
   doc.text(fixRTL(`טלפון   :   ${orderData.phone || ""}`), { align: "right" });
   doc.text(fixRTL(`כתובת   :   ${orderData.address || ""}`), { align: "right"});
   doc.text(fixRTL(`עיר   :   ${orderData.city || ""}`), { align: "right" });

@@ -16,7 +16,7 @@ router.post("/create", async (req, res) => {
     if (!amount || !order) {
       return res.status(400).json({ error: "Missing amount or order details" });
     }
-
+    await saveOrder(ordernum, { amount, order });
     console.log("🔹 Creating payment:", { amount, order });
 
     const heshDesc = order.map((item, index) =>
@@ -85,45 +85,6 @@ router.post("/create", async (req, res) => {
     console.error("❌ Payment creation error:", err);
     res.status(500).json({ error: "Failed to create payment" });
   }
-  //   const { amount, order } = req.body;
-
-  //   const heshDesc = order.map(item => ({
-  //     description: item.title,
-  //     quantity: item.quantity,
-  //     price: item.price,
-  //   }));
-
-  //   // בונים מספר הזמנה
-  //   const ordernum = process.env.HYP_TERMINAL + Date.now().toString().slice(-6);
-
-  //   const params = new URLSearchParams({
-  //     KEY: process.env.HYP_KEY,
-  //     action: "APISign",
-  //     What: "SIGN",
-  //     PassP: process.env.HYP_PASS,
-  //     Order: ordernum,
-  //     Masof: process.env.HYP_TERMINAL,
-  //     Info: "רכישה באתר מילר סטנדרים",
-  //     Amount: amount.toString(),
-  //     heshDesc: JSON.stringify(heshDesc),
-  //     Sign: "True",
-  //     MoreData: "True",
-  //     UTF8: "True",
-  //     UTF8out: "True",
-  //     SendHesh: "True",
-  //     Pritim: "True",
-  //   });
-
-  //   try {
-  //     const signResponse = await fetch(`https://pay.hyp.co.il/p/?${params.toString()}`);
-  //     const signText = await signResponse.text();
-  //     const signature = new URLSearchParams(signText).get("signature");
-  //     console.log("Response to client:", { signature, ordernum });
-  //     res.json({ signature, ordernum });
-  //   } catch (err) {
-  //     console.error("Error getting signature:", err);
-  //     res.status(500).json({ error: "Failed to create payment" });
-  //   }
 });
 
 // ===========================
@@ -197,27 +158,25 @@ router.get("/hyp-callback", async (req, res) => {
     const data = req.query;
     console.log("🔹 HYP Callback:", data);
 
-    if (data.Status !== "0") {
+    if (data.CCode !== "0") {
       return res.redirect("https://miler.co.il/payment-failed");
     }
+    const orderId = data.Order;
 
-    // דוגמה ל-orderItems, את יכולה להביא אותם מה־DB
-    const orderItems = [
-      { title: "מוצר א", quantity: 2, price: 50 },
-      { title: "מוצר ב", quantity: 1, price: 50 },
-    ];
-
+    // קריאה מהקובץ לפי מזהה הזמנה
+    const json = await fs.readFile(ordersFilePath, "utf8");
+    const orders = JSON.parse(json);
+    const orderItems = orders[orderId]?.order || [];
     // ===== יצירת חשבונית PDF =====
     const invoicePath = await generateInvoice({
-      zip: "1234567",
-      city: "תל אביב",
-      address: "רחוב הדוגמא 1",
-      phone: "050-1234567",
-      lastName: "ישראלי",
-      firstName: "דוד",
+      zip: data.zip || "00000",
+      city: data.city || "עיר",
+      address: data.street,
+      phone: data.cell,
+      name: data.Fild1,
       Order: data.Order,
       Amount: data.Amount,
-      email: data.email,
+      email: data.Fild2,
       orderItems,
     });
 
