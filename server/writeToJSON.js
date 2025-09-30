@@ -28,3 +28,4 @@ async function saveOrder(orderId, orderData) {
   // מחכים שהכתיבה תסתיים לפני שממשיכים
   await writeLock;
 }
+module.exports = saveOrder;
