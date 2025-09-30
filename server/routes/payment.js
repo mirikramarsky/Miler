@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const nodemailer = require("nodemailer");
+const fs = require("fs").promises;
 const fetch = (...args) =>
   import("node-fetch").then(mod => mod.default(...args));
 require('dotenv').config();
