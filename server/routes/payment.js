@@ -19,7 +19,7 @@ router.post("/create", async (req, res) => {
       return res.status(400).json({ error: "Missing amount or order details" });
     }
     await saveOrder(ordernum, { amount, order });
-    console.log("🔹 Creating payment:", { amount, order });
+    console.log("🔹after saving in orders.json Creating payment:", { amount, order });
 
     const heshDesc = order.map((item, index) =>
       `[0~${item.title}~${item.quantity}~${item.price}]`

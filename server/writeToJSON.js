@@ -7,6 +7,8 @@ const ordersFilePath = path.join(__dirname, "orders.json");
 let writeLock = Promise.resolve();
 
 async function saveOrder(orderId, orderData) {
+  console.log("🔹 Saving order:", orderId, orderData);
+  
   // מחכים לסיום כתיבה קודמת
   writeLock = writeLock.then(async () => {
     let orders = {};
