@@ -155,6 +155,7 @@ router.post("/create", async (req, res) => {
 // });
 const generateInvoice = require("../invoice");
 const saveOrder = require("../writeToJSON");
+const { log } = require("console");
 
 router.get("/hyp-callback", async (req, res) => {
   try {
@@ -169,6 +170,7 @@ router.get("/hyp-callback", async (req, res) => {
     // קריאה מהקובץ לפי מזהה הזמנה
     const json = await fs.readFile(ordersFilePath, "utf8");
     const orders = JSON.parse(json);
+    console.log("🔹 Loaded orders from JSON:", orders);
     const orderItems = orders[orderId]?.order || [];
     // ===== יצירת חשבונית PDF =====
     const invoicePath = await generateInvoice({
@@ -209,8 +211,12 @@ router.get("/hyp-callback", async (req, res) => {
         { filename: `invoice_${data.Order}.pdf`, path: invoicePath }
       ],
     };
+    console.log("🔹 Sending emails to seller and customer");
+    
     await transporter.sendMail(mailToSeller);
     await transporter.sendMail(mailToCustomer);
+    console.log("✅ Emails sent successfully");
+    
 
     res.redirect(`https://miler.co.il/success?orderId=${data.Order}&amount=${data.Amount}&products=${encodeURIComponent(JSON.stringify(orderItems))}  `);
 
