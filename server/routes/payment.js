@@ -5,7 +5,8 @@ const fs = require("fs").promises;
 const fetch = (...args) =>
   import("node-fetch").then(mod => mod.default(...args));
 require('dotenv').config();
-
+const path = require("path");
+const ordersFilePath = path.join(__dirname, "../orders.json");
 // ===========================
 // יצירת תשלום HYP
 // ===========================
