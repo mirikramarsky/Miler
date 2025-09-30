@@ -232,12 +232,16 @@ router.get("/hyp-callback", async (req, res) => {
 // שליחת מייל אחרי הצלחת תשלום
 // ===========================
 const transporter = nodemailer.createTransport({
-  service: "gmail", // או SMTP אחר
+  service: "gmail",
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
+  debug: true,
+  logger: true,
+  connectionTimeout: 10000, // 10 שניות
 });
+
 
 router.post("/payment-success", express.json(), async (req, res) => {
   try {
