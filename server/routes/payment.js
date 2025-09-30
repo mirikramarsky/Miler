@@ -171,6 +171,8 @@ router.get("/hyp-callback", async (req, res) => {
     const json = await fs.readFile(ordersFilePath, "utf8");
     const orders = JSON.parse(json);
     console.log("🔹 Loaded orders from JSON:", orders);
+    console.log("🔹 Current orderId:", orderId);
+    
     const orderItems = orders[orderId]?.order || [];
     // ===== יצירת חשבונית PDF =====
     const invoicePath = await generateInvoice({
