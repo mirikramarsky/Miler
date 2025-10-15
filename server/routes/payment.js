@@ -129,38 +129,37 @@ router.get("/hyp-callback", async (req, res) => {
     });
 
     // ===== שליחת מייל ללקוח עם החשבונית =====
-    const mailToCustomer = {
-      from: {
-        email: 'noreply@miler.co.il',
-        name: 'מילר סטנדרים' // או שם העסק שלך
-      },
-      to: data.email || "customer@example.com",
-      subject: `חשבונית מס #${data.Order}`,
-      html: "<h3>תודה על הרכישה! מצורפת החשבונית שלך.</h3>",
-      attachments: [
-        { filename: `invoice_${data.Order}.pdf`, path: invoicePath }
-      ],
-    };
-    const mailToSeller = {
-      from: {
-        email: 'noreply@miler.co.il',
-        name: 'מילר סטנדרים' // או שם העסק שלך
-      },
-      to: process.env.SELLER_EMAIL,
-      subject: `התקבלה הזמנה חדשה #${data.Order}`,
-      html: `
-    <h3>התקבלה הזמנה חדשה</h3>
-    <p>מספר הזמנה: ${data.Order}</p>
-    <p>סכום: ${data.Amount} ₪</p>
-    <p>לקוח: ${data.email}</p>
-    <br>
-    מצורפת החשבונית שנשלחה ללקוח.
-  `,
-      attachments: [
-        { filename: `invoice_${data.Order}.pdf`, path: invoicePath }
-      ],
-    };
-    console.log("🔹 Sending emails to seller and customer");
+    // const mailToCustomer = {
+    //   from: {
+    //     email: 'noreply@miler.co.il',
+    //     name: 'מילר סטנדרים' // או שם העסק שלך
+    //   },
+    //   to: data.email || "customer@example.com",
+    //   subject: `חשבונית מס #${data.Order}`,
+    //   html: "<h3>תודה על הרכישה! מצורפת החשבונית שלך.</h3>",
+    //   attachments: [
+    //     { filename: `invoice_${data.Order}.pdf`, path: invoicePath }
+    //   ],
+    // };
+  //   const mailToSeller = {
+  //     from: {
+  //       email: 'noreply@miler.co.il',
+  //       name: 'מילר סטנדרים' // או שם העסק שלך
+  //     },
+  //     to: process.env.SELLER_EMAIL,
+  //     subject: `התקבלה הזמנה חדשה #${data.Order}`,
+  //     html: `
+  //   <h3>התקבלה הזמנה חדשה</h3>
+  //   <p>מספר הזמנה: ${data.Order}</p>
+  //   <p>סכום: ${data.Amount} ₪</p>
+  //   <p>לקוח: ${data.email}</p>
+  //   <br>
+  //   מצורפת החשבונית שנשלחה ללקוח.
+  // `,
+  //     attachments: [
+  //       { filename: `invoice_${data.Order}.pdf`, path: invoicePath }
+  //     ],
+  //   };
     const filePath = path.join(__dirname, "../invoices/invoice_" + data.Order + ".pdf");
     const fileContent = await fs.readFile(filePath);
     const fileBase64 = fileContent.toString("base64");
@@ -172,7 +171,7 @@ router.get("/hyp-callback", async (req, res) => {
     <h3>התקבלה הזמנה חדשה</h3>
     <p>מספר הזמנה: ${data.Order}</p>
     <p>סכום: ${data.Amount} ₪</p>
-    <p>לקוח: ${data.email}</p>
+    <p>לקוח: ${data.Fild1}</p>
     <br>
     מצורפת החשבונית שנשלחה ללקוח.
   `,
@@ -186,7 +185,7 @@ router.get("/hyp-callback", async (req, res) => {
       ],
     };
     const msg = {
-      to: data.email || "customer@example.com",
+      to: data.Fild2 || "customer@example.com",
       from: "noreply@miler.co.il",
       subject: `חשבונית מס #${data.Order}`,
       html: "<h3>תודה על הרכישה! מצורפת החשבונית שלך.</h3>",
@@ -199,6 +198,7 @@ router.get("/hyp-callback", async (req, res) => {
         },
       ],
     };
+     console.log("🔹 Sending emails to seller and customer");
     await sgMail.send(msgSeller);
     await sgMail.send(msg);
 
