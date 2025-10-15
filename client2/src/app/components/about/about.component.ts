@@ -26,9 +26,9 @@ export class AboutComponent implements OnInit {
       "@type": "Product",
       "name": "סטנדר מעץ איכותי",
       "image": [
-        "https://yourwebsite.com/assets/images/stander-main.jpg",
-        "https://yourwebsite.com/assets/images/stander1.jpg",
-        "https://yourwebsite.com/assets/images/stander2.jpg"
+        "https://miler.onrender.com/uploads/moshe.png",
+        "https://miler.onrender.com/uploads/nevel.png",
+        "https://miler.onrender.com/uploads/moshe.png"
       ],
       "description": "סטנדר יפה, חזק ומהודר לבית, לבית הכנסת וללימוד תורה. מתאים למתנה לאדמו\"ר, ראש ישיבה, ר\"מ, סבא, חתן או בן.",
       "brand": {
@@ -37,9 +37,9 @@ export class AboutComponent implements OnInit {
       },
       "offers": {
         "@type": "Offer",
-        "url": "https://yourwebsite.com/standers/wood",
+        "url": "https://miler.co.il/home",
         "priceCurrency": "ILS",
-        "price": "250"
+        "price": "670"
       }
     });
     document.head.appendChild(script);
