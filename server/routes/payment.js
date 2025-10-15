@@ -7,6 +7,8 @@ const fetch = (...args) =>
 require('dotenv').config();
 const path = require("path");
 const ordersFilePath = path.join(__dirname, "../orders.json");
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 // ===========================
 // יצירת תשלום HYP
 // ===========================
@@ -172,7 +174,7 @@ router.get("/hyp-callback", async (req, res) => {
     const orders = JSON.parse(json);
     console.log("🔹 Loaded orders from JSON:", orders);
     console.log("🔹 Current orderId:", orderId);
-    
+
     const orderItems = orders[orderId]?.order || [];
     // ===== יצירת חשבונית PDF =====
     const invoicePath = await generateInvoice({
@@ -189,7 +191,10 @@ router.get("/hyp-callback", async (req, res) => {
 
     // ===== שליחת מייל ללקוח עם החשבונית =====
     const mailToCustomer = {
-      from: process.env.EMAIL_USER,
+      from: {
+        email: 'noreply@miler.co.il',
+        name: 'מילר סטנדרים' // או שם העסק שלך
+      },
       to: data.email || "customer@example.com",
       subject: `חשבונית מס #${data.Order}`,
       html: "<h3>תודה על הרכישה! מצורפת החשבונית שלך.</h3>",
@@ -198,7 +203,10 @@ router.get("/hyp-callback", async (req, res) => {
       ],
     };
     const mailToSeller = {
-      from: process.env.EMAIL_USER,
+      from: {
+        email: 'noreply@miler.co.il',
+        name: 'מילר סטנדרים' // או שם העסק שלך
+      },
       to: process.env.SELLER_EMAIL, // כתובת שלך, תשימי בקובץ .env
       subject: `התקבלה הזמנה חדשה #${data.Order}`,
       html: `
@@ -214,11 +222,12 @@ router.get("/hyp-callback", async (req, res) => {
       ],
     };
     console.log("🔹 Sending emails to seller and customer");
-    
-    await transporter.sendMail(mailToSeller);
-    await transporter.sendMail(mailToCustomer);
+
+    await sgMail.send(mailToSeller);
+    await sgMail.send(mailToCustomer);
+
     console.log("✅ Emails sent successfully");
-    
+
 
     res.redirect(`https://miler.co.il/success?orderId=${data.Order}&amount=${data.Amount}&products=${encodeURIComponent(JSON.stringify(orderItems))}  `);
 
