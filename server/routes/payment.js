@@ -94,70 +94,9 @@ router.post("/create", async (req, res) => {
 // ===========================
 // Callback מ-HYP אחרי תשלום
 // ===========================
-// router.get("/hyp-callback", async (req, res) => {
-//   try {
-//     const data = req.query;
-//     console.log("🔹 HYP Callback:", data);
 
-//     // אפשרות: שמירה ל-DB כאן
-//     // await savePaymentResult(data);
-
-//     res.send("OK");
-//   } catch (err) {
-//     console.error("❌ Webhook error:", err);
-//     res.status(500).send("ERROR");
-//   }
-// });
-// router.get("/hyp-callback", async (req, res) => {
-//   try {
-//     const data = req.query; // נתוני התשלום מ-HYP
-//     console.log("🔹 HYP Callback:", data);
-
-//     // בדיקה אם התשלום הצליח
-//     if (data.Status !== "0") { // HYP מחזיר 0 במידה והכל OK
-//       return res.redirect("miler.co.il/payment-failed"); // לדף כשלון
-//     }
-
-//     // כאן אפשר לשמור את ההזמנה ב-DB
-//     // await savePaymentResult(data);
-
-//     // שליחת מייל למוכר
-//     const mailToSeller = {
-//       from: process.env.EMAIL_USER,
-//       to: process.env.SELLER_EMAIL,
-//       subject: `הזמנה חדשה #${data.Order}`,
-//       html: `
-//         <h3>הזמנה חדשה התקבלה</h3>
-//         <p>סכום לתשלום: ${data.Amount} ש"ח</p>
-//         <p>מספר הזמנה: ${data.Order}</p>
-//       `,
-//     };
-
-//     // שליחת מייל ללקוח (אם יש אימייל ב-Query)
-//     const mailToCustomer = {
-//       from: process.env.EMAIL_USER,
-//       to: data.email || "customer@example.com",
-//       subject: `תשלום התקבל בהצלחה #${data.Order}`,
-//       html: `
-//         <h3>תודה על הרכישה!</h3>
-//         <p>סכום ששולם: ${data.Amount} ש"ח</p>
-//         <p>מספר הזמנה: ${data.Order}</p>
-//       `,
-//     };
-
-//     await transporter.sendMail(mailToSeller);
-//     await transporter.sendMail(mailToCustomer);
-
-//     // בסוף - הפניה לדף הצלחה
-//     res.redirect(`miler.co.il/success?orderId=${data.Order}&amount=${data.Amount}&products=${encodeURIComponent(JSON.stringify(orderItems))}`);
-//   } catch (err) {
-//     console.error("❌ Callback error:", err);
-//     res.status(500).send("ERROR");
-//   }
-// });
 const generateInvoice = require("../invoice");
 const saveOrder = require("../writeToJSON");
-const { log } = require("console");
 
 router.get("/hyp-callback", async (req, res) => {
   try {
@@ -207,7 +146,7 @@ router.get("/hyp-callback", async (req, res) => {
         email: 'noreply@miler.co.il',
         name: 'מילר סטנדרים' // או שם העסק שלך
       },
-      to: process.env.SELLER_EMAIL, // כתובת שלך, תשימי בקובץ .env
+      to: process.env.SELLER_EMAIL,
       subject: `התקבלה הזמנה חדשה #${data.Order}`,
       html: `
     <h3>התקבלה הזמנה חדשה</h3>
@@ -222,9 +161,46 @@ router.get("/hyp-callback", async (req, res) => {
       ],
     };
     console.log("🔹 Sending emails to seller and customer");
-
-    await sgMail.send(mailToSeller);
-    await sgMail.send(mailToCustomer);
+    const filePath = path.join(__dirname, "../invoices/invoice_" + data.Order + ".pdf");
+    const fileContent = await fs.readFile(filePath);
+    const fileBase64 = fileContent.toString("base64");
+    const msgSeller = {
+      to: process.env.SELLER_EMAIL,
+      from: "noreply@miler.co.il",
+      subject: `התקבלה הזמנה חדשה #${data.Order}`,
+      html: `
+    <h3>התקבלה הזמנה חדשה</h3>
+    <p>מספר הזמנה: ${data.Order}</p>
+    <p>סכום: ${data.Amount} ₪</p>
+    <p>לקוח: ${data.email}</p>
+    <br>
+    מצורפת החשבונית שנשלחה ללקוח.
+  `,
+      attachments: [
+        {
+          content: fileBase64,
+          filename: `invoice_${data.Order}.pdf`,
+          type: "application/pdf",
+          disposition: "attachment",
+        },
+      ],
+    };
+    const msg = {
+      to: data.email || "customer@example.com",
+      from: "noreply@miler.co.il",
+      subject: `חשבונית מס #${data.Order}`,
+      html: "<h3>תודה על הרכישה! מצורפת החשבונית שלך.</h3>",
+      attachments: [
+        {
+          content: fileBase64,
+          filename: `invoice_${data.Order}.pdf`,
+          type: "application/pdf",
+          disposition: "attachment",
+        },
+      ],
+    };
+    await sgMail.send(msgSeller);
+    await sgMail.send(msg);
 
     console.log("✅ Emails sent successfully");
 
