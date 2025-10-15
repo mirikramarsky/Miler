@@ -7,6 +7,7 @@ import { AdminGuard } from './guards/admin-guard.guard';
 import { AdminLoginComponent } from './components/admin-login/admin-login.component';
 import { SuccessComponent } from './components/success/success.component';
 import { FailedComponent } from './components/failed/failed.component';
+import { AboutComponent } from './components/about/about.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] },
   { path: 'success', component: SuccessComponent },
   { path: 'payment-failed', component: FailedComponent },
+  { path: 'about', component: AboutComponent },
   { path: 'admin/login', component: AdminLoginComponent },
   { path: '**', redirectTo: '/home' }
 ];
