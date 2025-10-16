@@ -167,7 +167,7 @@ a:hover {
     background-color: #f8f8f8;
     border-top: 1px solid #ccc;
 }
-.shlomo:hover{
+/* .shlomo:hover{
     width: 350px;
 }
 .yerushalaym:hover{
@@ -178,7 +178,7 @@ a:hover {
 }
 .nevel:hover{
     width: 350px;
-}
+} */
 /* ========== אנימציה ========== */
 @keyframes slideIn {
     to {
