@@ -75,101 +75,122 @@ a:hover {
 /* ========== תמונת הכותרת העליונה ========== */
 /* ========== תמונת הכותרת העליונה ========== */
 .main-image {
-  display: block;
-  margin: 30px auto;
-  width: 60%; /* מקטין באמת את התמונה */
-  height: auto; /* לא חותך */
-  border: 2px solid #222;
-  border-radius: 4px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
+    display: block;
+    margin: 30px auto;
+    width: 20%;
+    /* מקטין באמת את התמונה */
+    height: auto;
+    /* לא חותך */
+    border: 2px solid #222;
+    border-radius: 4px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    background-color: #fff;
 }
 
 .main-image:hover {
-  transform: scale(1.02);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+    width: 25%;
+    height: auto;
+    transform: scale(1.02);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
 }
 
 /* ========== גלריית התמונות ========== */
 .gallery {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 25px;
-  margin: 60px auto;
-  padding: 20px;
-  max-width: 1300px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+    margin: 60px auto;
+    padding: 20px;
+    max-width: 1300px;
 }
 
 /* כל כרטיס תמונה */
 .gallery-item {
-  position: relative;
-  width: 300px;
-  background-color: #fff;
-  border: 2px solid #222; /* מסגרת כהה ובולטת */
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5); /* צל עמוק */
-  border-radius: 0; /* קצוות ישרים */
-  overflow: hidden;
-  opacity: 0;
-  transform: translateX(80px);
-  animation: slideIn 0.8s forwards;
+    position: relative;
+    width: 300px;
+    background-color: #fff;
+    border: 2px solid #222;
+    /* מסגרת כהה ובולטת */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+    /* צל עמוק */
+    border-radius: 0;
+    /* קצוות ישרים */
+    overflow: hidden;
+    opacity: 0;
+    transform: translateX(80px);
+    animation: slideIn 0.8s forwards;
 }
 
 /* אנימציה מדורגת – אחד אחד */
-.gallery-item:nth-child(1) { animation-delay: 0.2s; }
-.gallery-item:nth-child(2) { animation-delay: 0.4s; }
-.gallery-item:nth-child(3) { animation-delay: 0.6s; }
-.gallery-item:nth-child(4) { animation-delay: 0.8s; }
+.gallery-item:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.gallery-item:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+.gallery-item:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+.gallery-item:nth-child(4) {
+    animation-delay: 0.8s;
+}
 
 /* אפקט ריחוף */
 .gallery-item:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
-  transition: all 0.3s ease;
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+    transition: all 0.3s ease;
 }
 
 /* תמונה בגלריה */
 .gallery-item img {
-  width: 100%;
-  height: auto;
-  display: block;
+    width: 100%;
+    height: auto;
+    display: block;
 }
 
 /* טקסט מתחת לתמונה */
 .gallery-item p {
-  padding: 12px;
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #111;
-  text-align: center;
-  background-color: #f8f8f8;
-  border-top: 1px solid #ccc;
+    padding: 12px;
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #111;
+    text-align: center;
+    background-color: #f8f8f8;
+    border-top: 1px solid #ccc;
 }
 
 /* ========== אנימציה ========== */
 @keyframes slideIn {
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 /* ========== רספונסיביות ========== */
 @media (max-width: 992px) {
-  .gallery-item {
-    width: 45%;
-  }
-  .main-image {
-    width: 80%;
-  }
+    .gallery-item {
+        width: 45%;
+    }
+
+    .main-image {
+        width: 80%;
+    }
 }
 
 @media (max-width: 600px) {
-  .gallery-item {
-    width: 100%;
-  }
-  .main-image {
-    width: 90%;
-  }
+    .gallery-item {
+        width: 100%;
+    }
+
+    .main-image {
+        width: 90%;
+    }
 }
