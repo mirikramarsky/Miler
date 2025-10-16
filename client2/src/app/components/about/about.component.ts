@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
@@ -6,9 +6,9 @@ import { Title, Meta } from '@angular/platform-browser';
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.css']
 })
-export class AboutComponent implements OnInit {
+export class AboutComponent implements OnInit, AfterViewInit  {
 
-  constructor(private titleService: Title, private metaService: Meta) { }
+  constructor(private titleService: Title, private metaService: Meta, private el: ElementRef) { }
 
   ngOnInit(): void {
     // Meta Tags
@@ -44,5 +44,18 @@ export class AboutComponent implements OnInit {
     });
     document.head.appendChild(script);
   }
+ ngAfterViewInit() {
+    const images = this.el.nativeElement.querySelectorAll('.gallery img');
 
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    images.forEach((img: HTMLElement) => observer.observe(img));
+  }
 }
