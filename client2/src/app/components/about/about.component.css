@@ -142,7 +142,6 @@ a:hover {
 
 /* אפקט ריחוף */
 .gallery-item:hover {
-    width: 350px;
     transform: translateY(-8px);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
     transition: all 0.3s ease;
@@ -166,7 +165,18 @@ a:hover {
     background-color: #f8f8f8;
     border-top: 1px solid #ccc;
 }
-
+.shlomo:hover{
+    width: 350px;
+}
+.yerushalaym:hover{
+    width: 350px;
+}
+.moshe:hover{
+    width: 350px;
+}
+.nevel:hover{
+    width: 350px;
+}
 /* ========== אנימציה ========== */
 @keyframes slideIn {
     to {
