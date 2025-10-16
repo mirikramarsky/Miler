@@ -112,16 +112,17 @@ a:hover {
     width: 300px;
     background-color: #fff;
     border: 2px solid #222;
-    /* מסגרת כהה ובולטת */
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
-    /* צל עמוק */
     border-radius: 0;
-    /* קצוות ישרים */
     overflow: hidden;
     opacity: 0;
     transform: translateX(80px);
     animation: slideIn 0.8s forwards;
+
+    /* הוספה: מונע גלישה בעת הגדלה */
+    will-change: transform;
 }
+
 
 /* אנימציה מדורגת – אחד אחד */
 .gallery-item:nth-child(1) {
@@ -142,10 +143,11 @@ a:hover {
 
 /* אפקט ריחוף */
 .gallery-item:hover {
-    transform: translateY(-8px);
+    transform: scale(1.05); /* רק היא תגדל */
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
 
 /* תמונה בגלריה */
 .gallery-item img {

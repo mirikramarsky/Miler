@@ -36,14 +36,64 @@
 
   <!-- Structured Data (Google Logo & Info) -->
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "url": "https://miler.co.il",
-    "logo": "https://miler.co.il/logo.png",
-    "name": "מילר - סטנדרים"
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": "סטנדר מעץ מלא",
+  "image": [
+    "https://miler.onrender.com/uploads/nevel.png"
+  ],
+  "description": "סטנדר מעץ איכותי, מהודר ועמיד.",
+  "sku": "12345",
+  "brand": {
+    "@type": "Brand",
+    "name": "Miller"
+  },
+  "offers": {
+    "@type": "Offer",
+    "url": "https://miler.co.il/home",
+    "priceCurrency": "ILS",
+    "price": "450",
+    "priceValidUntil": "2025-12-31",
+    "itemCondition": "https://schema.org/NewCondition",
+    "availability": "https://schema.org/InStock",
+    "shippingDetails": {
+      "@type": "OfferShippingDetails",
+      "shippingRate": {
+        "@type": "MonetaryAmount",
+        "value": "0",
+        "currency": "ILS"
+      },
+      "shippingDestination": {
+        "@type": "DefinedRegion",
+        "addressCountry": "IL"
+      }
+    },
+    "hasMerchantReturnPolicy": {
+      "@type": "MerchantReturnPolicy",
+      "returnPolicyCategory": "https://schema.org/ReturnLabelProvided"
+    }
+  },
+  "review": {
+    "@type": "Review",
+    "reviewRating": {
+      "@type": "Rating",
+      "ratingValue": "5",
+      "bestRating": "5"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "יוסי"
+    }
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "reviewCount": "12"
   }
-  </script>
+}
+</script>
+
 
   <style>
     .contact {
