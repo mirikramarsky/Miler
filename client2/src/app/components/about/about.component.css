@@ -142,6 +142,7 @@ a:hover {
 
 /* אפקט ריחוף */
 .gallery-item:hover {
+    width: 350px;
     transform: translateY(-8px);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
     transition: all 0.3s ease;
