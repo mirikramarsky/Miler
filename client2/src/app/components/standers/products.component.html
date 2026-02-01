@@ -1,15 +1,45 @@
-<h2>סטנדרים</h2>
+<section class="standers-section">
 
-<div class="products-grid">
-  <div *ngFor="let product of products" class="product-card">
-    <h1>{{ product.title }}</h1>
-    <img [src]="BASEURL + product.image" alt="{{product.title}}" />
-    <h3>{{ product.title }}</h3>
-    <p>₪{{ product.price }}</p>
-    <div class="product-actions">
-      <button (click)="addToCart(product)" class="add-to-cart-btn">
-        🛒 הוסף לסל
-      </button>
-    </div>
+  <header class="section-header">
+    <h1>סטנדרים מעץ איכותי</h1>
+    <p class="section-subtitle">
+      סטנדרים מהודרים, חזקים ויפים – לבית, לבית הכנסת וללימוד תורה
+    </p>
+  </header>
+
+  <div class="products-grid">
+    <article
+      *ngFor="let product of products"
+      class="product-card"
+      itemscope
+      itemtype="https://schema.org/Product"
+    >
+
+      <h2 itemprop="name">{{ product.title }}</h2>
+
+      <figure class="product-image">
+        <img
+          [src]="BASEURL + product.image"
+          [alt]="product.title + ' – סטנדר עץ איכותי'"
+          itemprop="image"
+        />
+      </figure>
+
+      <p class="product-price">
+        <span itemprop="price">{{ product.price }}</span> ₪
+      </p>
+
+      <div class="product-actions">
+        <button
+          (click)="addToCart(product)"
+          class="add-to-cart-btn"
+          aria-label="הוסף לסל"
+        >
+          🛒 הוסף לסל
+        </button>
+      </div>
+
+    </article>
   </div>
-</div>
+
+</section>
