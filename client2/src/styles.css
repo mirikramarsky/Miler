@@ -68,3 +68,8 @@ body {
     align-items: center;
   }
 } */
+button {
+  background-image: url('/assets/images/luxury-bg.jpg') !important;
+  background-size: cover !important;
+  background-position: center !important;
+}
