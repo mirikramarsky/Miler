@@ -129,3 +129,28 @@
     0 14px 40px rgba(212,175,55,0.9),
     inset 0 0 0 1px rgba(255,255,255,0.4);
 }
+/* ===== רקע יוקרתי מאחורי הסטנדרים ===== */
+
+.products-grid {
+  position: relative;
+  background-image: url('/assets/images/luxury-bg.jpg');
+  background-size: cover;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  padding: 3rem 2rem;
+  border-radius: 18px;
+}
+
+.products-grid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(25, 45, 85, 0.35); /* כחול מואר */
+  border-radius: 18px;
+  z-index: 0;
+}
+
+.product-card {
+  position: relative;
+  z-index: 1;
+}
