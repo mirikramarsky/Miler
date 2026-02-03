@@ -162,6 +162,7 @@ background-color: transparent !important;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+outline: 3px solid red;
 
   color: #fff;
   font-weight: 600;
