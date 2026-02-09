@@ -53,8 +53,20 @@
 .product-card img {
   max-width: 100%;
   height: auto;
-  margin: 1.2rem 
-  filter: drop-shadow(0 12px 24px rgba(0,0,0,0.7));
+  margin: 1.2rem; 
+}
+
+.product-card::after {
+  content: "";
+  position: absolute;
+  bottom: 22px;      /* גובה הרצפה */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 65%;
+  height: 18px;
+  background: rgba(0, 0, 0, 0.55);
+  filter: blur(18px);
+  z-index: 0;
 }
 
 .product-card h3 {
