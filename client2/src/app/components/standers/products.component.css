@@ -51,9 +51,10 @@
 }
 
 .product-card img {
-  max-width: 100%;
-  height: auto;
-  margin: 1.2rem; 
+    max-width: 100%;
+    height: auto;
+    margin: 1.2rem 1.2rem 0 1.2rem; /* בלי רווח למטה */
+
 }
 
 .product-card::after {
