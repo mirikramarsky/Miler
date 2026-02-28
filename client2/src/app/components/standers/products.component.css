@@ -22,11 +22,6 @@
   text-align: center;
   color: #fff;
 
-  background-image: url('/assets/images/luxury-bg.jpg');
-  background-size: cover;
-  background-position: center bottom;
-  background-repeat: no-repeat;
-
   box-shadow: 0 16px 32px rgba(0,0,0,0.6);
   overflow: hidden;
   transition: transform 0.3s ease;
@@ -55,19 +50,6 @@
     height: auto;
     margin: 1.2rem 1.2rem 0 1.2rem; /* בלי רווח למטה */
 
-}
-
-.product-card::after {
-  content: "";
-  position: absolute;
-  bottom: 22px;      /* גובה הרצפה */
-  left: 50%;
-  transform: translateX(-50%);
-  width: 65%;
-  height: 18px;
-  background: rgba(0, 0, 0, 0.55);
-  filter: blur(18px);
-  z-index: 0;
 }
 
 .product-card h3 {
