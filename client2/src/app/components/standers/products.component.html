@@ -9,7 +9,7 @@
 
   <div class="products-grid">
     <article
-      *ngFor="let product of products"
+      *ngFor="let product of products; trackBy: trackByProduct"
       class="product-card"
       itemscope
       itemtype="https://schema.org/Product"
