@@ -17,17 +17,17 @@
 
       <h2 itemprop="name">{{ product.title }}</h2>
 
-      <figure class="product-image">
-         <img
-  [src]="BASEURL + product.image"
-  [alt]="product.title + ' – סטנדר עץ איכותי'"
-  itemprop="image"
-  loading="lazy"
-  decoding="async"
-  width="500"
-  height="500"
-/>
-      </figure>
+<figure class="product-image">
+  <img
+    [src]="BASEURL + product.image"
+    [alt]="product.title + ' – סטנדר עץ איכותי'"
+    itemprop="image"
+    loading="lazy"
+    decoding="async"
+    width="500"
+    height="500"
+  />
+</figure>
 
       <p class="product-price">
         <span itemprop="price">{{ product.price }}</span> ₪
