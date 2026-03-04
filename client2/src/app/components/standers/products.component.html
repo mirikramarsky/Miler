@@ -19,9 +19,13 @@
 
       <figure class="product-image">
         <img
-          [src]="BASEURL + product.image"
-          [alt]="product.title + ' – סטנדר עץ איכותי'"
-          itemprop="image"
+         <img
+  [src]="BASEURL + product.image"
+  [alt]="product.title + ' – סטנדר עץ איכותי'"
+  itemprop="image"
+  loading="lazy"
+  decoding="async"
+/>
         />
       </figure>
 
